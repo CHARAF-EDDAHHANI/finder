@@ -1,9 +1,11 @@
+#!/mnt/d/finder/venv/bin/python
+
 import unittest
 from unittest.mock import patch
 from io import StringIO
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from console import Console
+from hr_console.console import Console
 
 # Replace 'sqlite:///test_example.db' with the URL of your test database
 TEST_DATABASE_URL = 'sqlite:///test_example.db'
