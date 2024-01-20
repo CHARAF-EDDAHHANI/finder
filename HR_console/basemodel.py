@@ -1,3 +1,5 @@
+#!/mnt/d/finder/venv/bin/python
+
 import json
 from sqlalchemy import Column, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base

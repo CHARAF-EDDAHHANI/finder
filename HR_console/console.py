@@ -1,3 +1,5 @@
+#!/mnt/d/finder/venv/bin/python
+
 import cmd
 import shlex
 from sqlalchemy import create_engine

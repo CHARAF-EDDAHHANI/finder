@@ -1,3 +1,5 @@
+#!/mnt/d/finder/venv/bin/python
+
 import uuid
 from sqlalchemy import Column, String, Text, ForeignKey
 from sqlalchemy.orm import relationship
