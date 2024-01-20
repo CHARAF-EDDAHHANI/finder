@@ -1,13 +1,15 @@
-#!/mnt/d/finder/venv/bin/python
+#!/usr/bin/python3
 
 import cmd
 import shlex
+import hr_console
+import hr_console.engine
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from employee import Employee
-from jobopening import JobOpening
-from company import Company
-from filestorage import FileStorage
+from hr_console.employee import Employee
+from hr_console.jobopening import JobOpening
+from hr_console.company import Company
+from hr_console.engine.filestorage import FileStorage
 import basemodel
 
 DATABASE_URL = 'sqlite:///example.db'
@@ -170,9 +172,14 @@ if __name__ == "__main__":
         print("1. Create Employee")
         print("2. Create Job Opening")
         print("3. Create Company")
-        print("4. Exit")
+        print("4. Show Details")
+        print("5. Update Details")
+        print("6. Delete Entity")
+        print("7. Save to JSON")
+        print("8. Load from JSON")
+        print("9. Exit")
 
-        choice = input("Enter your choice (1/2/3/4): ")
+        choice = input("Enter your choice (1-9): ")
 
         if choice == '1':
             # Input for creating an employee
@@ -209,9 +216,42 @@ if __name__ == "__main__":
             console_obj.create_company(company_name, company_description, location, recruiter_contact)
 
         elif choice == '4':
+            # Input for showing details
+            class_type = input("Enter Class Type (Employee/JobOpening/Company): ")
+            class_id = input("Enter Class ID: ")
+            console_obj.do_show(f"{class_type} {class_id}")
+
+        elif choice == '5':
+            # Input for updating details
+            class_type = input("Enter Class Type (Employee/JobOpening/Company): ")
+            class_id = input("Enter Entity ID: ")
+            attribute_name = input("Enter Attribute Name: ")
+            new_value = input("Enter New Value: ")
+            console_obj.do_update(f"{class_type} {class_id} {attribute_name} {new_value}")
+
+        elif choice == '6':
+            # Input for destroying (deleting) an entity
+            class_type = input("Enter Class Type (Employee/JobOpening/Company): ")
+            class_id = input("Enter Entity ID: ")
+            console_obj.do_destroy(f"{class_type} {class_id}")
+
+        elif choice == '7':
+            # Input for saving to JSON
+            class_type = input("Enter Class Type (Employee/JobOpening/Company): ")
+            filename = input("Enter Filename: ")
+            console_obj.do_save_to_json(f"{class_type} {filename}")
+
+        elif choice == '8':
+            # Input for loading from JSON
+            class_type = input("Enter Class Type (Employee/JobOpening/Company): ")
+            filename = input("Enter Filename: ")
+            console_obj.do_load_from_json(f"{class_type} {filename}")
+
+        elif choice == '9':
             print("Exiting the HR Console. Goodbye!")
             break
 
         else:
-            print("Invalid choice. Please enter 1, 2, 3, or 4.")
+            print("Invalid choice. Please enter a number between 1 and 9.")
+
 

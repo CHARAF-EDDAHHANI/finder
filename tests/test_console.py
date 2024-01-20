@@ -1,8 +1,11 @@
-#!/mnt/d/finder/venv/bin/python
+#!/usr/bin/python3
 
+import sys
+sys.path.append('/mnt/d/finder')
 import unittest
 from unittest.mock import patch
 from io import StringIO
+from sqlalchemy import text
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from hr_console.console import Console
@@ -18,9 +21,9 @@ class TestConsoleMethods(unittest.TestCase):
 
     def setUp(self):
         # Create tables in the test database
-        test_session.execute('CREATE TABLE IF NOT EXISTS employee (id INTEGER PRIMARY KEY AUTOINCREMENT, first_name TEXT, last_name TEXT, employee_skills TEXT, education TEXT, cv_pdf TEXT, employee_contact TEXT, password TEXT, company_id INTEGER)')
-        test_session.execute('CREATE TABLE IF NOT EXISTS job_opening (id INTEGER PRIMARY KEY AUTOINCREMENT, job_title TEXT, location TEXT, recruiter_contact TEXT, job_description TEXT, position_details TEXT, required_skills TEXT, company_id INTEGER)')
-        test_session.execute('CREATE TABLE IF NOT EXISTS company (id INTEGER PRIMARY KEY AUTOINCREMENT, company_name TEXT, company_description TEXT, location TEXT, recruiter_contact TEXT)')
+        test_session.execute(text('CREATE TABLE IF NOT EXISTS employee (id INTEGER PRIMARY KEY AUTOINCREMENT, first_name TEXT, last_name TEXT, employee_skills TEXT, education TEXT, cv_pdf TEXT, employee_contact TEXT, password TEXT, company_id INTEGER)'))
+        test_session.execute(text('CREATE TABLE IF NOT EXISTS job_opening (id INTEGER PRIMARY KEY AUTOINCREMENT, job_title TEXT, location TEXT, recruiter_contact TEXT, job_description TEXT, position_details TEXT, required_skills TEXT, company_id INTEGER)'))
+        test_session.execute(text('CREATE TABLE IF NOT EXISTS company (id INTEGER PRIMARY KEY AUTOINCREMENT, company_name TEXT, company_description TEXT, location TEXT, recruiter_contact TEXT)'))
         test_session.commit()
 
         # Redirect stdout to capture print statements

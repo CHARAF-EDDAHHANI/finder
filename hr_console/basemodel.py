@@ -1,4 +1,4 @@
-#!/mnt/d/finder/venv/bin/python
+#!/usr/bin/python3
 
 import json
 from sqlalchemy import Column, String, DateTime
