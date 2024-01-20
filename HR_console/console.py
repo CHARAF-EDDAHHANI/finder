@@ -3,16 +3,20 @@ from sqlalchemy.orm import sessionmaker
 from employee import Employee
 from jobopening import JobOpening
 from company import Company
+from filestorage import FileStorage
+import basemodel
 
 # Replace 'sqlite:///example.db' with the URL of   database
 DATABASE_URL = 'sqlite:///example.db'
 engine = create_engine(DATABASE_URL, echo=True)
-
-Base.metadata.create_all(bind=engine)
+basemodel.Base.metadata.create_all(bind=engine)
 Session = sessionmaker(bind=engine)
 session = Session()
 
 class Console:
+    def __init__(self, session):
+        self.session = session
+        
     def create_employee(self, first_name, last_name, employee_skills, education, cv_pdf, employee_contact, password, company_id=None):
         employee = Employee(first_name=first_name, last_name=last_name, employee_skills=employee_skills,
                             education=education, cv_pdf=cv_pdf, employee_contact=employee_contact,
@@ -35,7 +39,17 @@ class Console:
         session.add(company)
         session.commit()
         print("Company created successfully.")
+        
+    def save_to_json(self, class_type, filename):
+        objects = self.session.query(class_type).all()
+        FileStorage.save_to_json(objects, filename)
 
+    def load_from_json(self, class_type, filename):
+        objects = FileStorage.load_from_json(class_type, filename)
+        for obj in objects:
+            self.session.add(obj)
+        self.session.commit()
+        
 if __name__ == "__main__":
     console = Console()
 
