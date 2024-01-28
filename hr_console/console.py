@@ -2,8 +2,6 @@
 
 import cmd
 import shlex
-import hr_console
-import hr_console.engine
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from hr_console.employee import Employee
@@ -12,20 +10,15 @@ from hr_console.company import Company
 from hr_console.engine.filestorage import FileStorage
 import basemodel
 
-DATABASE_URL = 'sqlite:///example.db'
-engine = create_engine(DATABASE_URL, echo=True)
-basemodel.Base.metadata.create_all(bind=engine)
-Session = sessionmaker(bind=engine)
-session = Session()
-
 
 class Console(cmd.Cmd):
     intro = "Welcome to the HR Console. Type 'help' to list available commands."
     prompt = "(HR Console) "
 
     def __init__(self, session):
-        super(Console, self).__init__()
+        super().__init__()
         self.session = session
+        self.storage = storage
 
     def create_employee(self, first_name, last_name, employee_skills, education, cv_pdf, employee_contact, password, company_id=None):
         employee = Employee(first_name=first_name, last_name=last_name, employee_skills=employee_skills,
@@ -165,7 +158,15 @@ class Console(cmd.Cmd):
 
 
 if __name__ == "__main__":
-    console_obj = Console(session)
+     DATABASE_URL = 'sqlite:///example.db'
+    engine = create_engine(DATABASE_URL, echo=True)
+    basemodel.Base.metadata.create_all(bind=engine)
+    Session = sessionmaker(bind=engine)
+    session = Session()
+    storage = DBStorage()
+    storage.reload()
+
+    console_obj = Console(session, storage)
 
     while True:
         print("\n--- HR Console ---")
