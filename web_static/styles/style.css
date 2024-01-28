@@ -5,16 +5,10 @@ body {
 }
 
 header {
-    background-color: #333;
+    background-color: #13abe7;
     color: #fff;
     text-align: center;
     padding: 1em 0;
-}
-
-nav {
-    background-color: #555;
-    color: #fff;
-    padding: 0.5em;
 }
 
 nav ul {
@@ -27,11 +21,7 @@ nav ul {
 
 nav a {
     text-decoration: none;
-    color: #fff;
-}
-
-main {
-    padding: 1em;
+    color: #ded11d;
 }
 
 form {
@@ -47,54 +37,25 @@ form button {
 }
 
 button {
-    background-color: #555;
-    color: #fff;
+    background-color: #d82323;
+    color: #a02222;
     padding: 0.5em;
     border: none;
     cursor: pointer;
 }
 
 footer {
-    background-color: #333;
-    color: #fff;
+    background-color: #4fc0bd;
+    color: #761212;
     text-align: center;
     padding: 1em 0;
     position: fixed;
     bottom: 0;
     width: 100%;
 }
-############
-main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.section {
-    margin: 2em 0;
-    text-align: center;
-}
-
-.slides {
-    display: flex;
-    overflow: hidden;
-    width: 80%;
-    margin: 0 auto;
-}
-
-.slide {
-    min-width: 100%;
-    flex: 0 0 auto;
-    box-sizing: border-box;
-    padding: 1em;
-    background-color: #eee;
-    border: 1px solid #ddd;
-    margin-right: 1em;
-}
-############
 
 nav {
-    background-color: #555;
+    background-color: #bc1d1d;
     color: #fff;
     padding: 0.5em;
     display: flex;
@@ -105,20 +66,23 @@ nav {
 .search-bar {
     display: flex;
     align-items: center;
+    color: #22c548;
 }
 
 #searchInput {
     padding: 0.5em;
+    background-color: #e91884;
+    color: #080808;
 }
 
 #searchButton {
-    background-color: #777;
+    background-color: #e91884;
     color: #fff;
     padding: 0.5em;
     border: none;
     cursor: pointer;
 }
-##
+
 main {
     display: flex;
     flex-direction: column;
@@ -142,9 +106,7 @@ main {
     flex: 0 0 auto;
     box-sizing: border-box;
     padding: 1em;
-    background-color: #eee;
-    border: 1px solid #ddd;
+    background-color: #7f37d8;
+    border: 1px solid #220b0b;
     margin-right: 1em;
 }
-
-/* ... (existing styles) ... */
