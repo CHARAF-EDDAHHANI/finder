@@ -1,4 +1,4 @@
-#!/mnt/bin/python
+#!/usr/bin/python
 
 import uuid
 from sqlalchemy import Column, String, Text, ForeignKey
@@ -18,4 +18,3 @@ class JobOpening(BaseModel):
     company_id = Column(String, ForeignKey('companies.company_id'))
 
     company = relationship("Company", back_populates="job_openings")
-
