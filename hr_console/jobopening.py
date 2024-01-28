@@ -1,4 +1,4 @@
-#!/mnt/d/finder/venv/bin/python
+#!/mnt/bin/python
 
 import uuid
 from sqlalchemy import Column, String, Text, ForeignKey
