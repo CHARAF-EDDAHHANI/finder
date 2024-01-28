@@ -13,10 +13,14 @@ class Employee(BaseModel):
     last_name = Column(String)
     employee_skills = Column(String)
     education = Column(String)
+    department = Column(String)
+    position = Column(String)
+    experience_level = Column(String)
     cv_pdf = Column(String)  # Assuming this is a file path or URL
     company_id = Column(String, ForeignKey('companies.company_id'))
     employee_contact = Column(String)
     password = Column(String)
+    
 
     company = relationship("Company", back_populates="employees")
 
