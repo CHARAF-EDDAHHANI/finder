@@ -8,7 +8,7 @@ from basemodel import BaseModel
 class Company(BaseModel):
     __tablename__ = 'companies'
 
-    company_id = Column(String, primary_key=True, default=uuid.uuid4)
+    company_id = Column(String, primary_key=True, default=str(uuid.uuid4()))
     company_name = Column(String)
     company_description = Column(Text)
     location = Column(String)
