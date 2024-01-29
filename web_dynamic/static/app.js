@@ -73,7 +73,6 @@ $(document).ready(function () {
     displayEmployees();
     displayCompanies();
     displayJobOpenings();
-});
 
 // New code for handling button clicks
     $('#showEmployeesButton').on('click', function () {

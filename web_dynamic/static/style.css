@@ -1,14 +1,16 @@
+
+
+header {
+    background-color: #17eb53;
+    color:  #17eb53;
+    text-align: center;
+    padding: 1em 0;
+}
+
 body {
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
-}
-
-header {
-    background-color: #13abe7;
-    color: #fff;
-    text-align: center;
-    padding: 1em 0;
 }
 
 nav ul {
@@ -21,7 +23,7 @@ nav ul {
 
 nav a {
     text-decoration: none;
-    color: #ded11d;
+    color: #1d77de;
 }
 
 form {
@@ -36,26 +38,8 @@ form button {
     margin-bottom: 1em;
 }
 
-button {
-    background-color: #d82323;
-    color: #a02222;
-    padding: 0.5em;
-    border: none;
-    cursor: pointer;
-}
-
-footer {
-    background-color: #4fc0bd;
-    color: #761212;
-    text-align: center;
-    padding: 1em 0;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-}
-
 nav {
-    background-color: #bc1d1d;
+    background-color:  #17eb53;
     color: #fff;
     padding: 0.5em;
     display: flex;
@@ -71,13 +55,13 @@ nav {
 
 #searchInput {
     padding: 0.5em;
-    background-color: #e91884;
+    background-color:  #17eb53;
     color: #080808;
 }
 
 #searchButton {
-    background-color: #e91884;
-    color: #fff;
+    background-color: #fff;
+    color: #160505;
     padding: 0.5em;
     border: none;
     cursor: pointer;
@@ -96,7 +80,7 @@ nav {
 }
 
 button {
-    background-color: #e91884;
+    background-color:  #17eb53;
     color: #fff;
     padding: 0.5em;
     border: none;
@@ -120,7 +104,17 @@ button {
     flex: 0 0 auto;
     box-sizing: border-box;
     padding: 1em;
-    background-color: #7f37d8;
+    background-color:  #17eb53;
     border: 1px solid #220b0b;
     margin-right: 1em;
+}
+
+footer {
+    background-color: #4fc0bd;
+    color:  #17eb53;
+    text-align: center;
+    padding: 1em 0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
 }
