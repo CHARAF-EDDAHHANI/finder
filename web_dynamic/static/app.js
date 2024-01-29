@@ -74,3 +74,31 @@ $(document).ready(function () {
     displayCompanies();
     displayJobOpenings();
 });
+
+// New code for handling button clicks
+    $('#showEmployeesButton').on('click', function () {
+        console.log('Show Employees button clicked!');
+        // Add logic to fetch and display employees
+    });
+
+    $('#showCompaniesButton').on('click', function () {
+        console.log('Show Companies button clicked!');
+        // Add logic to fetch and display companies
+    });
+
+    $('#showJobOpeningsButton').on('click', function () {
+        console.log('Show Job Openings button clicked!');
+        // Add logic to fetch and display job openings
+    });
+
+    // ... More button click handlers ...
+
+    // Example: Handling a button click for interaction with the backend
+    const interactionButton = $('#interactionButton');
+    if (interactionButton.length) {
+        interactionButton.on('click', function () {
+            console.log('Button clicked!');
+            // Add your logic here
+        });
+    }
+});
