@@ -1,5 +1,43 @@
 $(document).ready(function () {
     console.log('App loaded!');
+    // Add event listener for the profile dropdown
+    $('.profile-dropdown').hover(
+    function () {
+        // Display dropdown content on hover
+        $('.dropdown-content', this).css('display', 'block');
+        }, 
+    function () {
+        // Hide dropdown content when not hovering
+        $('.dropdown-content', this).css('display', 'none');
+    });
+
+    // Add click event listeners for each option in the dropdown
+    $('.dropdown-content a').on('click',
+    function () {
+        // Handle the click event for each option
+        const optionText = $(this).text();
+        // Redirect based on the selected option
+    switch (optionText) {
+        case 'My Profile':
+            window.location.href = 'user-profile-url';
+            break;
+        case 'Add Employee':
+            // Handle the redirect or logic for adding an employee
+            break;
+        case 'Post Job Opening':
+            // Handle the redirect or logic for posting a job opening
+            break;
+        case 'Add Company':
+            // Handle the redirect or logic for adding a company
+            break;
+        case 'Feedback' :
+            //handle the redirect or logic for providing  feedback
+        default:
+            // Handle other options if needed
+            break;
+    }
+
+    });
 
     // Function to fetch and display employees
     function displayEmployees() {

@@ -1,31 +1,208 @@
-
-
+/* Header Style */
 header {
-    background-color: #17eb53;
-    color:  #17eb53;
+    background-color: #17eb53; /* Header background color */
+    color: #17eb53; /* Header text color */
     text-align: center;
-    padding: 1em 0;
+    padding: 1em 0; /* Header padding */
 }
 
+/* Body Style */
 body {
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
 }
 
+/* Navigation Bar Styles */
+nav {
+    background-color: #17eb53; /* Navigation bar background color */
+    color: #fff; /* Navigation bar text color */
+    padding: 0.5em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Style for dropdown content */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #17eb53; /* Dropdown background color */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: #fff; /* Dropdown link color */
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    transition: background-color 0.3s ease; /* Add transition for smooth color change on hover */
+}
+
+.dropdown-content a:hover {
+    background-color: #160505; /* Change background color on hover */
+}
+
+/* Show dropdown content when hovering over the profile dropdown */
+.profile-dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Navigation Styles */
 nav ul {
     list-style: none;
     margin: 0;
-    padding: 0;
+    padding: 0.2em; /* Adjusted padding for better appearance */
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+/* Add some margin to the Home link */
+nav ul li:nth-child(2) {
+    margin:0 10px; /* Adjust the margin as needed */
+}
+nav a {
+    text-decoration: none;
+    color: #1d77de; /* Navigation link color */
+    transition: color 0.3s ease; /* Add transition for smooth color change on hover */
+}
+
+nav a:hover {
+    color: #fff; /* Change color on hover */
+}
+
+/* Profile Photo Styles */
+.profile-photo {
+    width: 40px; /* Adjust the width as needed */
+    height: auto;
+    border-radius: 50%; /* Make it round */
+}
+
+/* My Profile Link Styles */
+.my-profile-link {
+    cursor: pointer;
+    text-decoration: none;
+    color: #1d77de;
+    padding: 0.5em;
+    display: inline-block;
+}
+
+/* Profile Link Styles */
+.profile-link {
+    margin-right: 10px; /* Adjust the margin as needed */
+}
+
+/* Home Logo Style */
+.logo {
+    width: 13px; /* Adjust the width as needed */
+    height: 13px;
+    margin-right: 5px; /* Adjust the margin as needed */
+    cursor: pointer;
+    align-items: center;
+}
+
+/* Search Bar Styles */
+.search-bar {
+    display: flex;
+    align-items: center;
+    color: #e0e8e2; /* Search bar text color */
+}
+
+#searchInput {
+    padding: 0.5em;
+    background-color: #e8edea; /* Search input background color */
+    color: #080808;
+}
+
+#searchButton {
+    background-color: #fff;
+    color: #160505; /* Search button text color */
+    padding: 0.5em;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Add transition for smooth button change on hover */
+}
+
+#searchButton:hover {
+    background-color: #160505; /* Change background color on hover */
+    color: #fff; /* Change text color on hover */
+}
+
+/* Main Section Styles */
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Button Container Styles */
+.button-container {
+    margin-top: 20px; /* Adjust the margin as needed */
     display: flex;
     justify-content: space-around;
 }
 
-nav a {
-    text-decoration: none;
-    color: #1d77de;
+/* Generic Button Styles */
+button {
+    background-color: #17eb53; /* Button background color */
+    color: #fff; /* Button text color */
+    padding: 0.5em;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Smooth transition effect */
 }
 
+button:hover {
+    background-color: #160505; /* Change background color on hover */
+    color: #fff; /* Change text color on hover */
+}
+
+/* Section Styles */
+.section {
+    margin: 2em 0; /* Section margin */
+    text-align: center;
+}
+
+/* Slide Styles */
+.slides {
+    display: flex;
+    overflow: hidden;
+    margin: 0 auto;
+    width: 80%; /* Full width for smaller screens */
+    animation: slideAnimation 20s linear infinite; /* Adjust the duration on animation as needed */
+}
+
+@keyframes slideAnimation {
+    0% {
+        transform: translateX(0%);
+    }
+    25% {
+        transform: translateX(0%);
+    }
+    50% {
+        transform: translateX(-100%);
+    }
+    75% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(0%);
+    }
+}
+
+.slide {
+    min-width: 100%;
+    flex: 0 0 auto;
+    box-sizing: border-box;
+    padding: 1em;
+    background-color: #17eb53; /* Slide background color */
+    border: 1px solid #220b0b; /* Slide border color */
+    margin-right: 1em;
+}
+
+/* Form Styles */
 form {
     max-width: 400px;
     margin: 0 auto;
@@ -38,83 +215,69 @@ form button {
     margin-bottom: 1em;
 }
 
-nav {
-    background-color:  #17eb53;
-    color: #fff;
+/* Footer Styles */
+footer {
+    background-color: #17eb53; /* Footer bar background color */
+    color: #5d55f0; /* Footer bar text color */
+    position: fixed;
+    bottom: 0;
+    height: 20px;
+    width: 100%;
     padding: 0.5em;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.search-bar {
-    display: flex;
-    align-items: center;
-    color: #22c548;
-}
+/* Media Query for Small Screens (e.g., Mobile Devices) */
+@media screen and (max-width: 600px) {
+    nav ul {
+        flex-direction: column; /* Stack nav items vertically */
+        align-items: center;
+    }
 
-#searchInput {
-    padding: 0.5em;
-    background-color:  #17eb53;
-    color: #080808;
-}
+    .search-bar {
+        flex-direction: column; /* Stack search input and button vertically */
+        align-items: center;
+    }
 
-#searchButton {
-    background-color: #fff;
-    color: #160505;
-    padding: 0.5em;
-    border: none;
-    cursor: pointer;
-}
+    #searchInput {
+        margin-bottom: 0.5em; /* Adjust spacing for smaller screens */
+    }
 
-.main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
+    .button-container {
+        flex-direction: column; /* Stack buttons vertically */
+        align-items: center;
+        margin-top: 10px; /* Adjust margin for smaller screens */
+    }
 
-.button-container {
-    margin-top: 20px; /* Adjust the margin as needed */
-    display: flex;
-    justify-content: space-around;
-}
+    .slides {
+        display: flex;
+        overflow: hidden;
+        margin: 0 auto;
+        width: 80%; /* Full width for smaller screens */
+        animation: slideAnimation 20s linear infinite; /* Adjust the duration as needed */
+    }
 
-button {
-    background-color:  #17eb53;
-    color: #fff;
-    padding: 0.5em;
-    border: none;
-    cursor: pointer;
-}
+    @keyframes slideAnimation {
+        0% {
+            transform: translateX(0%);
+        }
+        25% {
+            transform: translateX(0%);
+        }
+        50% {
+            transform: translateX(-100%);
+        }
+        75% {
+            transform: translateX(-100%);
+        }
+        100% {
+            transform: translateX(0%);
+        }
+    }
 
-.section {
-    margin: 2em 0;
-    text-align: center;
-}
-
-.slides {
-    display: flex;
-    overflow: hidden;
-    width: 80%;
-    margin: 0 auto;
-}
-
-.slide {
-    min-width: 100%;
-    flex: 0 0 auto;
-    box-sizing: border-box;
-    padding: 1em;
-    background-color:  #17eb53;
-    border: 1px solid #220b0b;
-    margin-right: 1em;
-}
-
-footer {
-    background-color: #4fc0bd;
-    color:  #17eb53;
-    text-align: center;
-    padding: 1em 0;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
+    .slide {
+        margin-right: 0; /* Remove right margin for slides */
+    }
 }
