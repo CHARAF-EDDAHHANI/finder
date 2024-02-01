@@ -113,13 +113,5 @@ $(document).ready(function () {
     });
 
     // ... More button click handlers ...
-
-    // Example: Handling a button click for interaction with the backend
-    const interactionButton = $('#interactionButton');
-    if (interactionButton.length) {
-        interactionButton.on('click', function () {
-            console.log('Button clicked!');
-            // Add your logic here
-        });
     }
 });
