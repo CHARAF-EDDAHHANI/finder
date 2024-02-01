@@ -7,19 +7,27 @@ from PIL import Image
 from datetime import datetime
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from hr_console.employee import Employee
-from hr_console.jobopening import JobOpening
-from hr_console.company import Company
+from sqlalchemy.sql import text
+from employee import Employee
+from jobopening import JobOpening
+from company import Company
 from feedback import Feedback
-from hr_console.engine.filestorage import FileStorage
+from engine.filestorage import FileStorage
+from engine.db_storage import DBStorage
 import basemodel
 
+DATABASE_URL = 'sqlite:///engine/finder.db'  # Update the path to your finder.db
+engine = create_engine(DATABASE_URL, echo=True)
+Session = sessionmaker(bind=engine)
+session = Session()
+storage = DBStorage()
+storage.reload()
 
 class Console(cmd.Cmd):
     intro = "Welcome to the HR Console. Type 'help' to list available commands."
     prompt = "(HR Console) "
 
-    def __init__(self, session):
+    def __init__(self, session, storage, another_argument=None):
         super().__init__()
         self.session = session
         self.storage = storage
@@ -163,7 +171,7 @@ class Console(cmd.Cmd):
         print("Profile picture cropped and updated successfully.")
 
 
-    def collect_feedback(self):
+    def collect_feedback(self, args):
         print("\nEnter your feedback:")
         user_name = input("Your Name: ")
         email = input("Your Email: ")
@@ -175,14 +183,15 @@ class Console(cmd.Cmd):
         with open('feedback.txt', 'a') as feedback_file:
             feedback_file.write(f"Name: {feedback.user_name}, Email: {feedback.email}, Subject: {feedback.subject}, Message: {feedback.message}\n")
         print("\nThank you for your feedback!")
+
     def do_submit_feedback(self, args):
         """
         Submit user feedback.
         Usage: submit_feedback
         """
-        self.collect_feedback()
+        self.collect_feedback(args)
 
-     def do_search_employees(self, args):
+    def do_search_employees(self, args):
         """
         Search employees based on an attribute and value.
         Usage: search_employees <attribute> <value>
@@ -234,7 +243,7 @@ class Console(cmd.Cmd):
         self.save_filter(filter_name, filters)
         print(f"Filter '{filter_name}' saved successfully!")
 
-     def do_apply_filter(self, args):
+    def do_apply_filter(self, args):
         """
         Apply a saved filter.
         Usage: apply_filter <filter_name>
@@ -367,17 +376,17 @@ class Console(cmd.Cmd):
 
 
 if __name__ == "__main__":
-     DATABASE_URL = 'sqlite:///example.db'
-    engine = create_engine(DATABASE_URL, echo=True)
-    basemodel.Base.metadata.create_all(bind=engine)
-    Session = sessionmaker(bind=engine)
-    session = Session()
-    storage = DBStorage()
-    storage.reload()
+     DATABASE_URL = 'sqlite:///engine/finder.db'
+engine = create_engine(DATABASE_URL, echo=True)
+basemodel.Base.metadata.create_all(bind=engine)
+Session = sessionmaker(bind=engine)
+session = Session()
+storage = DBStorage()
+storage.reload()
 
-    console_obj = Console(session, storage)
+console_obj = Console(session, storage)
 
-    while True:
+while True:
         print("\n--- HR Console ---")
         print("0. Exit")
         print("1. Create Employee")
@@ -461,11 +470,11 @@ if __name__ == "__main__":
             filename = input("Enter Filename: ")
             console_obj.do_load_from_json(f"{class_type} {filename}")
 
-         elif choice == '9':
-             #submit user feedback
-            console_obj.do_submit_feedback()
+        elif choice == '9':
+            #submit user feedback
+            console_obj.do_submit_feedback('')
 
-         elif choice == '10':
+        elif choice == '10':
             # Input for uploading profile picture
             employee_id = input("Enter Employee ID: ")
             image_path = input("Enter Image Path: ")

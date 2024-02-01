@@ -1,9 +1,9 @@
 from os import getenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
-from hr_console.employee import Employee
-from hr_console.jobopening import JobOpening
-from hr_console.company import Company
+from employee import Employee
+from jobopening import JobOpening
+from company import Company
 from engine.filestorage import FileStorage
 import basemodel
 
