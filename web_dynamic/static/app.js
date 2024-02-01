@@ -1,4 +1,4 @@
-$(document).ready(function () {
+hu$(document).ready(function () {
     console.log('App loaded!');
     // Add event listener for the profile dropdown
     $('.profile-dropdown').hover(
@@ -95,14 +95,7 @@ $(document).ready(function () {
             jobOpeningsSlides.append(slide);
         });
     }
-
-    // Example: Handling a button click to display employees
-    const employeesButton = $('#employeesButton');
-    if (employeesButton.length) {
-        employeesButton.on('click', function () {
-            displayEmployees();
-        });
-
+    
 //handling show employee+job+comp buttons clicks to show all profiles
     $('#showEmployeesButton').on('click', function () {
         console.log('Show Employees button clicked!');
