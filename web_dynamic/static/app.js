@@ -1,4 +1,4 @@
-hu$(document).ready(function () {
+$(document).ready(function () {
     console.log('App loaded!');
     // Add event listener for the profile dropdown
     $('.profile-dropdown').hover(
