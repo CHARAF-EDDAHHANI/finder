@@ -49,16 +49,6 @@ nav {
     display: block;
 }
 
-/* Navigation Styles */
-nav ul {
-    list-style: none;
-    margin: 0;
-    padding: 0.2em; /* Adjusted padding for better appearance */
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-}
-
 /* Add some margin to the Home link */
 nav ul li:nth-child(2) {
     margin:0 10px; /* Adjust the margin as needed */
@@ -231,7 +221,7 @@ footer {
 
 /* Media Query for Small Screens (e.g., Mobile Devices) */
 @media screen and (max-width: 600px) {
-    nav ul {
+    nav {
         flex-direction: column; /* Stack nav items vertically */
         align-items: center;
     }
