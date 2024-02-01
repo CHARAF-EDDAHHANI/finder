@@ -111,7 +111,4 @@ $(document).ready(function () {
         console.log('Show Job Openings button clicked!');
         // Add logic to fetch and display job openings
     });
-
-    // ... More button click handlers ...
-    }
-});
+    });
