@@ -102,17 +102,8 @@ $(document).ready(function () {
         employeesButton.on('click', function () {
             displayEmployees();
         });
-    }
 
-    // Add similar event listeners for companies and job openings buttons
-    // ...
-
-    // Initial display (you can call these functions based on your app's logic)
-    displayEmployees();
-    displayCompanies();
-    displayJobOpenings();
-
-// New code for handling button clicks
+//handling show employee+job+comp buttons clicks to show all profiles
     $('#showEmployeesButton').on('click', function () {
         console.log('Show Employees button clicked!');
         // Add logic to fetch and display employees
