@@ -18,16 +18,18 @@ $(document).ready(function () {
     }
 
     // Example: Trigger the createEmployee function with sample data
-    const employeeData = {
-      first_name: 'John',
-      last_name: 'Doe',
-      employee_skills: 'Programming',
-      education: 'Bachelor',
-      cv_pdf: 'path/to/cv.pdf',
-      employee_contact: 'john@example.com',
-      password: 'securepassword',
-      company_id: 1,  // Set the company_id as needed
-    };
+    $('#createEmployeeButton').on('click', function () {
+        const employeeData = {
+          first_name: 'John',
+          last_name: 'Doe',
+          employee_skills: 'Programming',
+          education: 'Bachelor',
+          cv_pdf: 'path/to/cv.pdf',
+          employee_contact: 'john@example.com',
+          password: 'securepassword',
+          company_id: 1,  // Set the company_id as needed
+        };
 
-    createEmployee(employeeData);
-  });
+        createEmployee(employeeData);
+    });
+});
