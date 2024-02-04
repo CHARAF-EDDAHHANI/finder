@@ -1,25 +1,25 @@
 #!/usr/bin/env python3
- 
+
 import sys
 import cmd
 import shlex
 import json
-from PIL import Image
+from sqlalchemy import or_, func
 from datetime import datetime
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.sql import text
+from PIL import Image
 from employee import Employee
-from jobopening import JobOpening
-from company import Company
+from jobs import JobOpening
 from feedback import Feedback
 from appengine.filestorage import FileStorage
 from appengine.db_storage import DBStorage
 import basemodel
 
-
 DATABASE_URL = 'sqlite:///appengine/finder.db'  # Update the path to your finder.db
 engine = create_engine(DATABASE_URL, echo=True)
+basemodel.Base.metadata.create_all(bind=engine)
 Session = sessionmaker(bind=engine)
 session = Session()
 storage = DBStorage()
@@ -34,42 +34,225 @@ class Console(cmd.Cmd):
         self.session = session
         self.storage = storage
 
-    def search_employees(self, attribute, value):
-        """Search for employees based on a specific attribute and value."""
-        query = f"SELECT * FROM employees WHERE {attribute} = :value"
-        result = self.session.execute(text(query), {'value': value}).fetchall()
-        return result
+    def create_employee(self, first_name, last_name, employee_skills, education, employee_contact):
+        try:
+            # Validate input types or any other conditions here
 
-    def filter_employees(self, filters):
-        """Filter employees based on custom filters."""
-        query = "SELECT * FROM employees WHERE "
-        conditions = [f"{key} = :{key}" for key in filters.keys()]
-        query += " AND ".join(conditions)
-        result = self.session.execute(text(query), filters).fetchall()
-        return result
-    
-    def create_employee(self, first_name, last_name, employee_skills, education, cv_pdf, employee_contact, password, company_id=None):
-        employee = Employee(first_name=first_name, last_name=last_name, employee_skills=employee_skills,
-                            education=education, cv_pdf=cv_pdf, employee_contact=employee_contact,
-                            password=password, company_id=company_id)
-        self.session.add(employee)
-        self.session.commit()
-        print("Employee created successfully.")
+            employee = Employee(first_name=first_name, last_name=last_name, employee_skills=employee_skills,
+                            education=education, employee_contact=employee_contact)
+            self.session.add(employee)
+            self.session.commit()
+            print("Employee created successfully.")
+        except Exception as e:
+            print(f"Error creating employee: {e}")
 
-    def create_job_opening(self, job_title, location, recruiter_contact, job_description, position_details, required_skills, company_id=None):
-        job_opening = JobOpening(job_title=job_title, location=location, recruiter_contact=recruiter_contact,
-                                job_description=job_description, position_details=position_details,
-                                required_skills=required_skills, company_id=company_id)
-        self.session.add(job_opening)
-        self.session.commit()
-        print("Job Opening created successfully.")
+    def do_create_employee(self, args):
+        """
+        Create a new employee.
+        Usage: create_employee <first_name> <last_name> <employee_skills> <education>  <employee_contact>
+        """
+        args_list = shlex.split(args)
+        if len(args_list) < 5:
+            print("Invalid number of arguments. See 'help create_employee' for usage.")
+            return
 
-    def create_company(self, company_name, company_description, location, recruiter_contact):
-        company = Company(company_name=company_name, company_description=company_description,
-                          location=location, recruiter_contact=recruiter_contact)
-        self.session.add(company)
-        self.session.commit()
-        print("Company created successfully.")
+        self.create_employee(*args_list)
+
+    def do_create_job_opening(self, args):
+        """
+        Create a new job opening.
+        Usage: create_job_opening <job_title> <location> <recruiter_contact> <job_description>
+        """
+        args_list = shlex.split(args)
+        if len(args_list) < 4:
+            print("Invalid number of arguments. See 'help create_job_opening' for usage.")
+            return
+
+        self.create_job_opening(*args_list)
+
+    def create_job_opening(self, job_title, location, recruiter_contact, job_description):
+        try:
+            # Validate input types or any other conditions here
+
+            job_opening = JobOpening(job_title=job_title, location=location, recruiter_contact=recruiter_contact,
+                                job_description=job_description)
+            self.session.add(job_opening)
+            self.session.commit()
+            print("Job Opening created successfully.")
+        except Exception as e:
+            print(f"Error creating job opening: {e}")
+
+    def do_show(self, args):
+        """
+        Show details of an entity.
+        Usage: show <profile name>
+        """
+        args_list = shlex.split(args)
+        if len(args_list) != 2:
+            print("Invalid number of arguments. See 'help show' for usage.")
+            return
+
+        profile_name = args_list[1]
+
+        # Check if the profile_name corresponds to an employee
+        employee = self.session.query(Employee).filter(
+            or_(
+                func.concat(Employee.first_name, ' ', Employee.last_name) == profile_name,
+                Employee.first_name == profile_name,
+                Employee.last_name == profile_name
+            )
+        ).first()
+
+        if employee:
+            print(f"Employee Details:\nFirst Name: {employee.first_name}\nLast Name: {employee.last_name}\n"
+                f"Skills: {employee.employee_skills}\nEducation: {employee.education}\n"
+                f"Contact: {employee.employee_contact}")
+            return
+
+        # Check if the profile_name corresponds to a job opening
+        job_opening = self.session.query(JobOpening).filter(JobOpening.job_title == profile_name).first()
+
+        if job_opening:
+
+            print(f"Job Opening Details:\nJob Title: {job_opening.job_title}\nLocation: {job_opening.location}\n"
+                f"Recruiter Contact: {job_opening.recruiter_contact}\nDescription: {job_opening.job_description}")
+        else:
+            print(f"No profile found for {profile_name}")
+
+    def do_update(self, args):
+        """
+        Update details of a profile.
+        Usage: update <profile type>  <attribute_name> <new_value>
+        """
+        args_list = shlex.split(args)
+        if len(args_list) != 3:
+            print("Invalid number of arguments. See 'help update' for usage.")
+            return
+
+        profile_type = args_list[0]
+        attribute_name = args_list[1]
+        new_value = args_list[2]
+
+        if profile_type.lower() == 'employee':
+            self.update_employee(profile_type, attribute_name, new_value)
+        elif profile_type.lower() == 'jobopening':
+            self.update_job_opening(profile_type, attribute_name, new_value)
+        else:
+            print(f"Invalid profile type: {profile_type}")
+
+    def update_employee(self, profile_type, attribute_name, new_value):
+        try:
+            # Validate input types or any other conditions here
+            # Retrieve the employee based on the profile name
+            employee = self.session.query(Employee).filter(
+                or_(
+                    func.concat(Employee.first_name, ' ', Employee.last_name) == profile_type,
+                    Employee.first_name == profile_type,
+                    Employee.last_name == profile_type
+                )
+            ).first()
+
+            if not employee:
+                print(f"No employee found with name {profile_type}")
+                return
+
+            # Update the specified attribute with the new value
+            if attribute_name.lower() == 'first_name':
+                employee.first_name = new_value
+            elif attribute_name.lower() == 'last_name':
+                employee.last_name = new_value
+            else:
+                print(f"Invalid attribute name for employee: {attribute_name}")
+                return
+
+            self.session.commit()
+            print("Employee details updated successfully.")
+        except Exception as e:
+            print(f"Error updating employee details: {e}")
+
+    def update_job_opening(self, profile_type, attribute_name, new_value):
+        try:
+            # Validate input types or any other conditions here
+            # Retrieve the job opening based on the profile name
+            job_opening = self.session.query(JobOpening).filter(JobOpening.job_title == profile_type).first()
+
+            if not job_opening:
+                print(f"No job opening found with title {profile_type}")
+                return
+
+            # Update the specified attribute with the new value
+            if attribute_name.lower() == 'job_title':
+                job_opening.job_title = new_value
+            else:
+                print(f"Invalid attribute name for job opening: {attribute_name}")
+                return
+
+            self.session.commit()
+            print("Job Opening details updated successfully.")
+        except Exception as e:
+            print(f"Error updating job opening details: {e}")
+
+    def do_delete(self, args):
+        """
+        Delete a profile.
+        Usage: delete <profile type> <profile name>
+        """
+        args_list = shlex.split(args)
+        if len(args_list) != 2:
+            print("Invalid number of arguments. See 'help delete' for usage.")
+            return
+
+        profile_type = args_list[0]
+        profile_name = args_list[1]
+
+        if profile_type.lower() == 'employee':
+            self.delete_employee(profile_name)
+        elif profile_type.lower() == 'jobopening':
+            self.delete_job_opening(profile_name)
+        else:
+            print(f"Invalid profile type: {profile_type}")
+
+    def delete_employee(self, profile_name):
+        try:
+            # Retrieve the employee based on the profile name
+            employee = self.session.query(Employee).filter(
+                or_(
+                    func.concat(Employee.first_name, ' ', Employee.last_name) == profile_name,
+                    Employee.first_name == profile_name,
+                    Employee.last_name == profile_name
+                )
+            ).first()
+
+            if employee:
+                self.session.delete(employee)
+                self.session.commit()
+                print(f"Employee with name {profile_name} deleted successfully.")
+            else:
+                print(f"No employee found with name {profile_name}")
+        except Exception as e:
+            print(f"Error deleting employee: {e}")
+
+    def delete_job_opening(self, profile_name):
+        try:
+            # Retrieve the job opening based on the profile name
+            job_opening = self.session.query(JobOpening).filter(JobOpening.job_title == profile_name).first()
+
+            if job_opening:
+                self.session.delete(job_opening)
+                self.session.commit()
+                print(f"Job Opening with title {profile_name} deleted successfully.")
+            else:
+                print(f"No job opening found with title {profile_name}")
+        except Exception as e:
+            print(f"Error deleting job opening: {e}")
+
+    # Exit console
+    def do_exit(self, args):
+        """
+        Exit the HR Console.
+        """
+        print("Exiting HR Console. Goodbye!")
+        return True
 
     def save_to_json(self, class_type, filename):
         objects = self.session.query(class_type).all()
@@ -81,99 +264,7 @@ class Console(cmd.Cmd):
             self.session.add(obj)
         self.session.commit()
 
-    def do_create_employee(self, args):
-        """
-        Create a new employee.
-        Usage: create_employee <first_name> <last_name> <employee_skills> <education> <cv_pdf> <employee_contact> <password> [company_id]
-        """
-        args_list = shlex.split(args)
-        if len(args_list) < 7:
-            print("Invalid number of arguments. See 'help create_employee' for usage.")
-            return
-
-        self.create_employee(*args_list)
-
-    def do_create_job_opening(self, args):
-        """
-        Create a new job opening.
-        Usage: create_job_opening <job_title> <location> <recruiter_contact> <job_description> <position_details> <required_skills> [company_id]
-        """
-        args_list = shlex.split(args)
-        if len(args_list) < 6:
-            print("Invalid number of arguments. See 'help create_job_opening' for usage.")
-            return
-
-        self.create_job_opening(*args_list)
-
-    def do_create_company(self, args):
-        """
-        Create a new company.
-        Usage: create_company <company_name> <company_description> <location> <recruiter_contact>
-        """
-        args_list = shlex.split(args)
-        if len(args_list) != 4:
-            print("Invalid number of arguments. See 'help create_company' for usage.")
-            return
-
-        self.create_company(*args_list)
-
-    def upload_profile_picture(self, employee_id, image_path):
-        """Upload and update the profile picture for an employee."""
-        employee = self.session.query(Employee).filter_by(id=employee_id).first()
-        if not employee:
-            print(f"Employee with ID {employee_id} not found.")
-            return
-
-        # Validate and resize the image if needed
-        image = Image.open(image_path)
-        # Add logic to validate image format, size, etc.
-
-        # Save the profile picture
-        filename = f"profile_picture_{employee_id}.png"
-        image.save(filename)
-
-        # Update the employee's profile picture attribute
-        employee.profile_picture = filename
-        self.session.commit()
-        print("Profile picture updated successfully.")
-
-    # New method: Preview profile picture
-    def preview_profile_picture(self, employee_id):
-        """Preview the profile picture of an employee."""
-        employee = self.session.query(Employee).filter_by(id=employee_id).first()
-        if not employee or not employee.profile_picture:
-            print(f"Profile picture for Employee ID {employee_id} not found.")
-            return
-
-        # Display or open the profile picture using a suitable viewer
-        # You may use an external image viewer or display it directly in the console
-
-    # New method: Crop profile picture
-    def crop_profile_picture(self, employee_id, x, y, width, height):
-        """Crop the profile picture of an employee."""
-        employee = self.session.query(Employee).filter_by(id=employee_id).first()
-        if not employee or not employee.profile_picture:
-            print(f"Profile picture for Employee ID {employee_id} not found.")
-            return
-
-        # Open the profile picture
-        image_path = employee.profile_picture
-        image = Image.open(image_path)
-
-        # Crop the image
-        cropped_image = image.crop((x, y, x + width, y + height))
-
-        # Save the cropped image
-        filename = f"profile_picture_cropped_{employee_id}.png"
-        cropped_image.save(filename)
-
-        # Update the employee's profile picture attribute
-        employee.profile_picture = filename
-        self.session.commit()
-        print("Profile picture cropped and updated successfully.")
-
-
-    def collect_feedback(self, args):
+    def collect_feedback(self):
         print("\nEnter your feedback:")
         user_name = input("Your Name: ")
         email = input("Your Email: ")
@@ -191,123 +282,7 @@ class Console(cmd.Cmd):
         Submit user feedback.
         Usage: submit_feedback
         """
-        self.collect_feedback(args)
-
-    def do_search_employees(self, args):
-        """
-        Search employees based on an attribute and value.
-        Usage: search_employees <attribute> <value>
-        """
-        args_list = shlex.split(args)
-        if len(args_list) != 2:
-            print("Invalid number of arguments. See 'help search_employees' for usage.")
-            return
-
-        attribute, value = args_list
-        result = self.search_employees(attribute, value)
-        # Process and display search results
-
-    def do_filter_employees(self, args):
-        """
-        Filter employees based on custom filters.
-        Usage: filter_employees <attribute1=value1> <attribute2=value2> ...
-        """
-        filters = {}
-        for arg in shlex.split(args):
-            key, value = arg.split('=')
-            filters[key] = value
-
-        result = self.filter_employees(filters)
-        # Process and display filter results
-
-    saved_filters = {}
-
-    def save_filter(self, filter_name, filters):
-        """Save a custom filter for future use."""
-        self.saved_filters[filter_name] = filters
-
-    def do_save_filter(self, args):
-        """
-        Save a custom filter for future use.
-        Usage: save_filter <filter_name> <attribute1=value1> <attribute2=value2> ...
-        """
-        args_list = shlex.split(args)
-        if len(args_list) < 2:
-            print("Invalid number of arguments. See 'help save_filter' for usage.")
-            return
-
-        filter_name = args_list[0]
-        filters = {}
-        for arg in args_list[1:]:
-            key, value = arg.split('=')
-            filters[key] = value
-
-        self.save_filter(filter_name, filters)
-        print(f"Filter '{filter_name}' saved successfully!")
-
-    def do_apply_filter(self, args):
-        """
-        Apply a saved filter.
-        Usage: apply_filter <filter_name>
-        """
-        filter_name = args.strip()
-        if filter_name not in self.saved_filters:
-            print(f"Filter '{filter_name}' not found.")
-            return
-
-        filters = self.saved_filters[filter_name]
-        result = self.filter_employees(filters)
-        # Process and display filter results
-
-    def do_show_saved_filters(self, args):
-        """Show the list of saved filters."""
-        if not self.saved_filters:
-            print("No saved filters.")
-            return
-
-        print("Saved Filters:")
-        for filter_name, filters in self.saved_filters.items():
-            print(f"{filter_name}: {filters}")
-
-
-    def do_upload_profile_picture(self, args):
-        """
-        Upload and update the profile picture for an employee.
-        Usage: upload_profile_picture <employee_id> <image_path>
-        """
-        args_list = shlex.split(args)
-        if len(args_list) != 2:
-            print("Invalid number of arguments. See 'help upload_profile_picture' for usage.")
-            return
-
-        employee_id, image_path = args_list
-        self.upload_profile_picture(employee_id, image_path)
-
-    def do_preview_profile_picture(self, args):
-        """
-        Preview the profile picture for an employee.
-        Usage: preview_profile_picture <employee_id>
-        """
-        args_list = shlex.split(args)
-        if len(args_list) != 1:
-            print("Invalid number of arguments. See 'help preview_profile_picture' for usage.")
-            return
-
-        employee_id = args_list[0]
-        self.preview_profile_picture(employee_id)
-
-    def do_crop_profile_picture(self, args):
-        """
-        Crop and update the profile picture for an employee.
-        Usage: crop_profile_picture <employee_id> <x> <y> <width> <height>
-        """
-        args_list = shlex.split(args)
-        if len(args_list) != 5:
-            print("Invalid number of arguments. See 'help crop_profile_picture' for usage.")
-            return
-
-        employee_id, x, y, width, height = args_list
-        self.crop_profile_picture(employee_id, int(x), int(y), int(width), int(height))
+        self.collect_feedback()
 
     def do_save_to_json(self, args):
         """
@@ -333,78 +308,23 @@ class Console(cmd.Cmd):
 
         self.load_from_json(args_list[0], args_list[1])
 
-    def do_show(self, args):
-        """
-        Show details of an entity.
-        Usage: show <class_type> <entity_id>
-        """
-        args_list = shlex.split(args)
-        if len(args_list) != 2:
-            print("Invalid number of arguments. See 'help show' for usage.")
-            return
-
-        # Implement show logic here
-
-    def do_update(self, args):
-        """
-        Update details of an entity.
-        Usage: update <class_type> <entity_id> <attribute_name> <new_value>
-        """
-        args_list = shlex.split(args)
-        if len(args_list) != 4:
-            print("Invalid number of arguments. See 'help update' for usage.")
-            return
-
-        # Implement update logic here
-
-    def do_destroy(self, args):
-        """
-        Destroy (delete) an entity.
-        Usage: destroy <class_type> <entity_id>
-        """
-        args_list = shlex.split(args)
-        if len(args_list) != 2:
-            print("Invalid number of arguments. See 'help destroy' for usage.")
-            return
-
-        # Implement destroy logic here
-
-    def do_exit(self, args):
-        """
-        Exit the HR Console.
-        """
-        print("Exiting HR Console. Goodbye!")
-        return True
-
 
 if __name__ == "__main__":
-     DATABASE_URL = 'sqlite:///engine/finder.db'
-engine = create_engine(DATABASE_URL, echo=True)
-basemodel.Base.metadata.create_all(bind=engine)
-Session = sessionmaker(bind=engine)
-session = Session()
-storage = DBStorage()
-storage.reload()
+    console_obj = Console(session, storage)
 
-console_obj = Console(session, storage)
-
-while True:
+    while True:
         print("\n--- HR Console ---")
         print("0. Exit")
         print("1. Create Employee")
-        print("2. Create Job Opening")
-        print("3. Create Company")
-        print("4. Show Details")
-        print("5. Update Details")
-        print("6. Delete Entity")
-        print("7. Save to JSON")
-        print("8. Load from JSON")
-        print("9. Submit Feedback") # new option
-        print("10. upload new profile picture") # new option
-        print("11. preview profile picture") # new option
-        print("12. crop profile picture") # new option
+        print("2. Create Job")
+        print("3. Show Details")
+        print("4. Update Details")
+        print("5. Delete existing profile")
+        print("6. Save to JSON")
+        print("7. Load from JSON")
+        print("8. Submit Feedback")
 
-        choice = input("Enter your choice (0-12): ")
+        choice = input("Enter your choice (0-8): ")
 
         if choice == '1':
             # Input for creating an employee
@@ -412,93 +332,58 @@ while True:
             last_name = input("Enter Last Name: ")
             employee_skills = input("Enter Employee Skills: ")
             education = input("Enter Education: ")
-            cv_pdf = input("Enter CV PDF: ")
             employee_contact = input("Enter Employee Contact: ")
-            password = input("Enter Password: ")
-            company_id = input("Enter Company ID (if applicable, else press Enter): ")
 
-            console_obj.create_employee(first_name, last_name, employee_skills, education, cv_pdf, employee_contact, password, company_id)
+            console_obj.create_employee(first_name, last_name, employee_skills, education, employee_contact)
 
         elif choice == '2':
-            # Input for creating a job opening
+            # Input for creating a job
             job_title = input("Enter Job Title: ")
             location = input("Enter Location: ")
             recruiter_contact = input("Enter Recruiter Contact: ")
             job_description = input("Enter Job Description: ")
-            position_details = input("Enter Position Details: ")
-            required_skills = input("Enter Required Skills: ")
-            company_id = input("Enter Company ID (if applicable, else press Enter): ")
 
-            console_obj.create_job_opening(job_title, location, recruiter_contact, job_description, position_details, required_skills, company_id)
+            console_obj.create_job_opening(job_title, location, recruiter_contact, job_description)
 
         elif choice == '3':
-            # Input for creating a company
-            company_name = input("Enter Company Name: ")
-            company_description = input("Enter Company Description: ")
-            location = input("Enter Location: ")
-            recruiter_contact = input("Enter Recruiter Contact: ")
-
-            console_obj.create_company(company_name, company_description, location, recruiter_contact)
+            # Input for showing details
+            profile_type = input("Enter profile type (Employee/JobOpening): ")
+            profile_name = input("Enter profile name: ")
+            console_obj.do_show(f"{profile_type} {profile_name}")
 
         elif choice == '4':
-            # Input for showing details
-            class_type = input("Enter Class Type (Employee/JobOpening/Company): ")
-            class_id = input("Enter Class ID: ")
-            console_obj.do_show(f"{class_type} {class_id}")
-
-        elif choice == '5':
             # Input for updating details
-            class_type = input("Enter Class Type (Employee/JobOpening/Company): ")
-            class_id = input("Enter Entity ID: ")
+            profile_type = input("Enter profile type (Employee/JobOpening): ")
+            profile_name = input("Enter profile name: ")
             attribute_name = input("Enter Attribute Name: ")
             new_value = input("Enter New Value: ")
-            console_obj.do_update(f"{class_type} {class_id} {attribute_name} {new_value}")
+            console_obj.do_update(f"{profile_type} {profile_name} {attribute_name} {new_value}")
+
+        elif choice == '5':
+            # Input for deleting an entity
+            profile_type = input("Enter profile type (Employee/JobOpening): ")
+            profile_name = input("Enter profile name: ")
+            console_obj.do_delete(f"{profile_type} {profile_name}")
 
         elif choice == '6':
-            # Input for destroying (deleting) an entity
-            class_type = input("Enter Class Type (Employee/JobOpening/Company): ")
-            class_id = input("Enter Entity ID: ")
-            console_obj.do_destroy(f"{class_type} {class_id}")
+            # Submit user feedback
+            console_obj.do_submit_feedback('')
 
         elif choice == '7':
             # Input for saving to JSON
-            class_type = input("Enter Class Type (Employee/JobOpening/Company): ")
+            class_type = input("Enter Class Type (Employee/JobOpening): ")
             filename = input("Enter Filename: ")
             console_obj.do_save_to_json(f"{class_type} {filename}")
 
         elif choice == '8':
             # Input for loading from JSON
-            class_type = input("Enter Class Type (Employee/JobOpening/Company): ")
+            class_type = input("Enter Class Type (Employee/JobOpening): ")
             filename = input("Enter Filename: ")
             console_obj.do_load_from_json(f"{class_type} {filename}")
 
-        elif choice == '9':
-            #submit user feedback
-            console_obj.do_submit_feedback('')
-
-        elif choice == '10':
-            # Input for uploading profile picture
-            employee_id = input("Enter Employee ID: ")
-            image_path = input("Enter Image Path: ")
-            console_obj.do_upload_profile_picture(f"{employee_id} {image_path}")
-
-        elif choice == '11':
-            # Input for previewing profile picture
-            employee_id = input("Enter Employee ID: ")
-            console_obj.do_preview_profile_picture(employee_id)
-
-        elif choice == '12':
-            # Input for cropping profile picture
-            employee_id = input("Enter Employee ID: ")
-            x = input("Enter X-coordinate: ")
-            y = input("Enter Y-coordinate: ")
-            width = input("Enter Width: ")
-            height = input("Enter Height: ")
-            console_obj.do_crop_profile_picture(f"{employee_id} {x} {y} {width} {height}")
-             
         elif choice == '0':
             print("Exiting the HR Console. Goodbye!")
             break
 
         else:
-            print("Invalid choice. Please enter a number between 1 and 9.")
+            print("Invalid choice. Please enter a number between 1 and 8.")

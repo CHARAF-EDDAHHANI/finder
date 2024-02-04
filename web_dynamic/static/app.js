@@ -24,11 +24,8 @@ $(document).ready(function () {
         case 'Add Employee':
             // Handle the redirect or logic for adding an employee
             break;
-        case 'Post Job Opening':
-            // Handle the redirect or logic for posting a job opening
-            break;
-        case 'Add Company':
-            // Handle the redirect or logic for adding a company
+        case 'Post Jobs':
+            // Handle the redirect or logic for posting a job
             break;
         case 'Feedback' :
             //handle the redirect or logic for providing  feedback
@@ -58,41 +55,23 @@ $(document).ready(function () {
         });
     }
 
-    // Function to fetch and display companies
-    function displayCompanies() {
+   
+    // Function to fetch and display jobs
+    function displayJobs() {
         // Mock data (replace with actual API call)
-        const companiesData = [
-            { company_name: 'Company A', company_description: 'Tech Company', location: 'City A', recruiter_contact: 'recruiterA@example.com' },
-            // Add more company data as needed
-        ];
-
-        // Display companies in the slides
-        const companiesSlides = $('#companySlides');
-        companiesSlides.empty(); // Clear existing content
-
-        companiesData.forEach(company => {
-            const slide = $('<div>').addClass('slide');
-            slide.text(`${company.company_name}\nDescription: ${company.company_description}\nLocation: ${company.location}\nContact: ${company.recruiter_contact}`);
-            companiesSlides.append(slide);
-        });
-    }
-
-    // Function to fetch and display job openings
-    function displayJobOpenings() {
-        // Mock data (replace with actual API call)
-        const jobOpeningsData = [
+        const jobsData = [
             { job_title: 'Software Engineer', location: 'City B', recruiter_contact: 'recruiterB@example.com', job_description: 'Full-stack development' },
-            // Add more job opening data as needed
+            // Add more jobs data as needed
         ];
 
-        // Display job openings in the slides
-        const jobOpeningsSlides = $('#jobOpeningSlides');
-        jobOpeningsSlides.empty(); // Clear existing content
+        // Display jobs in the slides
+        const jobsSlides = $('#jobsSlides');
+        jobsSlides.empty(); // Clear existing content
 
-        jobOpeningsData.forEach(jobOpening => {
+        jobsData.forEach(job => {
             const slide = $('<div>').addClass('slide');
-            slide.text(`${jobOpening.job_title}\nLocation: ${jobOpening.location}\nContact: ${jobOpening.recruiter_contact}\nDescription: ${jobOpening.job_description}`);
-            jobOpeningsSlides.append(slide);
+            slide.text(`${job.job_title}\nLocation: ${jobs.location}\nContact: ${jobOpening.recruiter_contact}\nDescription: ${jobOpening.job_description}`);
+            jobsSlides.append(slide);
         });
     }
     
@@ -102,13 +81,8 @@ $(document).ready(function () {
         // Add logic to fetch and display employees
     });
 
-    $('#showCompaniesButton').on('click', function () {
-        console.log('Show Companies button clicked!');
-        // Add logic to fetch and display companies
-    });
-
-    $('#showJobOpeningsButton').on('click', function () {
-        console.log('Show Job Openings button clicked!');
-        // Add logic to fetch and display job openings
+    $('#showJobsButton').on('click', function () {
+        console.log('Show Jobs button clicked!');
+        // Add logic to fetch and display jobs
     });
     });

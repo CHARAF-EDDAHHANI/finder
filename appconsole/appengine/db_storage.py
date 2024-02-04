@@ -4,12 +4,11 @@ from os import getenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from employee import Employee
-from jobopening import JobOpening
-from company import Company
+from jobs import JobOpening
 from appengine.filestorage import FileStorage
 import basemodel
 
-classes = {"Employee": Employee, "JobOpening": JobOpening, "Company": Company}
+classes = {"Employee": Employee, "JobOpening": JobOpening}
 
 class DBStorage:
     __engine = None

@@ -1,10 +1,8 @@
 #!/usr/bin/env python3
 
 import uuid
-from sqlalchemy import Column, String, Text, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy import Column, String, Text
 from basemodel import BaseModel
-
 
 class JobOpening(BaseModel):
     __tablename__ = 'job_openings'
@@ -14,8 +12,3 @@ class JobOpening(BaseModel):
     location = Column(String)
     recruiter_contact = Column(String)
     job_description = Column(Text)
-    position_details = Column(Text)
-    required_skills = Column(String)
-    company_id = Column(String, ForeignKey('companies.company_id'))
-
-    company = relationship("Company", back_populates="job_openings")

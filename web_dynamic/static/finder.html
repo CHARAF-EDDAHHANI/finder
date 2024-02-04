@@ -10,24 +10,23 @@
 <body>
 
 <nav>
-  <!-- My Profile division  with  dropdown linked adresses list -->
-<li class="profile-dropdown">
-    <a href="#" class="profile-link">
-        <img src="path/to/profile-photo.jpg" alt="My profile" class="profile-photo">
-    </a>
-    <div class="dropdown-content">
-        <a href="user-profile-url">My Profile</a>
-        <button id="createEmployeeButton">Create Employee</button>
-        <a href="#">Post OpeningJob</a>
-        <a href="#">Add Company</a>
-        <a href="#"> share Feedback</a>
-    </div>
-</li>
+    <!-- My Profile division with dropdown linked addresses list -->
+    <li class="profile-dropdown">
+        <a href="#" class="profile-link">
+            <img src="path/to/profile-photo.jpg" alt="My profile" class="profile-photo">
+        </a>
+        <div class="dropdown-content">
+            <a href="user-profile-url">My Profile</a>
+            <a href="http://localhost:5000/create_employee">Add Employee</a>
+            <a href="#">Post Jobs</a>
+            <a href="#">Share Feedback</a>
+        </div>
+    </li>
 
     <div>
         <a href="#"><img src="images/Logo.JPEG" alt="Logo" class="logo">Home</a>
     </div>
-    
+
     <div class="search-bar">
         <input type="text" id="searchInput" placeholder="Search ...">
         <button id="searchButton">Search</button>
@@ -37,8 +36,7 @@
 <main>
     <div class="button-container">
         <button id="employeesButton">Show Employees</button>
-        <button id="companiesButton">Show Companies</button>
-        <button id="jobOpeningsButton">Show Job Openings</button>
+        <button id="jobsButton">Show Job Openings</button>
     </div>
 
     <!-- Employees Section -->
@@ -52,35 +50,24 @@
         </div>
     </div>
 
-    <!-- Companies Section -->
-    <div class="section" id="companiesSection">
-        <h2>Companies</h2>
-        <div class="slides" id="companySlides">
-            <!-- Placeholder slides, replace with actual data dynamically -->
-            <div class="slide">Company A</div>
-            <div class="slide">Company B</div>
-            <div class="slide">Company C</div>
-        </div>
-    </div>
-
     <!-- Job Openings Section -->
-    <div class="section" id="jobOpeningsSection">
+    <div class="section" id="jobsSection">
         <h2>Job Openings</h2>
-        <div class="slides" id="jobOpeningSlides">
+        <div class="slides" id="jobsSlides">
             <!-- Placeholder slides, replace with actual data dynamically -->
-            <div class="slide">Job Opening 1</div>
-            <div class="slide">Job Opening 2</div>
-            <div class="slide">Job Opening 3</div>
+            <div class="slide">Job  1</div>
+            <div class="slide">Job  2</div>
+            <div class="slide">Job  3</div>
         </div>
     </div>
+    <button id="createEmployeeButton">Create Employee</button>
 </main>
+
 <footer>
     <p>&copy; 2024 HR Web App</p>
-    <a href="#">share Feedback . . .  </a>
+    <a href="#">Share Feedback . . .  </a>
 </footer>
 <script src="app.js"></script>
 <script src="Ajaxreq.js"></script>
 </body>
-
 </html>
-

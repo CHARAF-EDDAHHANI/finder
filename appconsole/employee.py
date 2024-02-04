@@ -1,27 +1,26 @@
 #!/usr/bin/env python3
 
 import uuid
-from sqlalchemy import Column, String, Text, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy import Column, String, Text
 from basemodel import BaseModel
-
 
 class Employee(BaseModel):
     __tablename__ = 'employees'
 
-    employee_id = Column(String, primary_key=True, default=str(uuid.uuid4()))
+    id = Column(String, primary_key=True, default=str(uuid.uuid4()))
+    created_at = Column(String)  # Assuming it's a string for simplicity, you may want to use DateTime
+    updated_at = Column(String)
     first_name = Column(String)
     last_name = Column(String)
     employee_skills = Column(String)
     education = Column(String)
-    department = Column(String)
-    position = Column(String)
-    experience_level = Column(String)
-    cv_pdf = Column(String)  # Assuming this is a file path or URL
-    company_id = Column(String, ForeignKey('companies.company_id'))
     employee_contact = Column(String)
-    password = Column(String)
-    
+    photo_path = Column(String)  # Store the path to the photo
 
-    company = relationship("Company", back_populates="employees")
-
+    def __init__(self, first_name, last_name, employee_skills, education, employee_contact):
+        self.id = str(uuid.uuid4())
+        self.first_name = first_name
+        self.last_name = last_name
+        self.employee_skills = employee_skills
+        self.education = education
+        self.employee_contact = employee_contact
