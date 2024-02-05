@@ -1,3 +1,82 @@
+/*employee modal*/
+.modal_addemployee {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content_addemployee {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 100px;
+    border: 1px solid #333; 
+    box-shadow: 10px 0 20px rgba(0, 0, 0, 0.5);
+    width: 80%;
+    
+}
+
+.closeemp {
+    float: right;
+    font-size: 20px;
+    cursor: pointer;
+}
+/*job modal*/
+.modal_postjob {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content_postjob{
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 100px;
+    border: 1px solid #333; 
+    box-shadow: 10px 0 20px rgba(0, 0, 0, 0.5);
+    width: 80%;
+}
+
+.closejob {
+    float: right;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+/*feedback modal*/
+.modal_feedback {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content_feedback{
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 100px;
+    border: 1px solid #333; 
+    box-shadow: 10px 0 20px rgba(0, 0, 0, 0.5);
+    width: 80%;
+}
+
+.closefeedback {
+    float: right;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+
 /* Header Style */
 header {
     background-color: #17eb53; /* Header background color */

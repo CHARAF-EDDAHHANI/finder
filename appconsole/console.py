@@ -70,12 +70,12 @@ class Console(cmd.Cmd):
 
         self.create_job_opening(*args_list)
 
-    def create_job_opening(self, job_title, location, recruiter_contact, job_description):
+    def create_job_opening(self, Job_title, Location, Recruiter_contact, Job_description):
         try:
             # Validate input types or any other conditions here
 
-            job_opening = JobOpening(job_title=job_title, location=location, recruiter_contact=recruiter_contact,
-                                job_description=job_description)
+            job_opening = JobOpening(Job_title=Job_title, Location=Location, Recruiter_contact=Recruiter_contact,
+                                Job_description=Job_description)
             self.session.add(job_opening)
             self.session.commit()
             print("Job Opening created successfully.")
@@ -114,8 +114,8 @@ class Console(cmd.Cmd):
 
         if job_opening:
 
-            print(f"Job Opening Details:\nJob Title: {job_opening.job_title}\nLocation: {job_opening.location}\n"
-                f"Recruiter Contact: {job_opening.recruiter_contact}\nDescription: {job_opening.job_description}")
+            print(f"Job Opening Details:\nJob Title: {job_opening.Job_title}\nLocation: {job_opening.Location}\n"
+                f"Recruiter Contact: {Job_opening.Recruiter_contact}\nDescription: {job_opening.Job_description}")
         else:
             print(f"No profile found for {profile_name}")
 
@@ -174,15 +174,15 @@ class Console(cmd.Cmd):
         try:
             # Validate input types or any other conditions here
             # Retrieve the job opening based on the profile name
-            job_opening = self.session.query(JobOpening).filter(JobOpening.job_title == profile_type).first()
+            job_opening = self.session.query(JobOpening).filter(JobOpening.Job_title == profile_type).first()
 
             if not job_opening:
                 print(f"No job opening found with title {profile_type}")
                 return
 
             # Update the specified attribute with the new value
-            if attribute_name.lower() == 'job_title':
-                job_opening.job_title = new_value
+            if attribute_name.lower() == 'Job_title':
+                job_opening.Job_title = new_value
             else:
                 print(f"Invalid attribute name for job opening: {attribute_name}")
                 return
@@ -235,7 +235,7 @@ class Console(cmd.Cmd):
     def delete_job_opening(self, profile_name):
         try:
             # Retrieve the job opening based on the profile name
-            job_opening = self.session.query(JobOpening).filter(JobOpening.job_title == profile_name).first()
+            job_opening = self.session.query(JobOpening).filter(JobOpening.Job_title == profile_name).first()
 
             if job_opening:
                 self.session.delete(job_opening)
@@ -338,10 +338,10 @@ if __name__ == "__main__":
 
         elif choice == '2':
             # Input for creating a job
-            job_title = input("Enter Job Title: ")
-            location = input("Enter Location: ")
-            recruiter_contact = input("Enter Recruiter Contact: ")
-            job_description = input("Enter Job Description: ")
+            Job_title = input("Enter Job Title: ")
+            Location = input("Enter Location: ")
+            Recruiter_contact = input("Enter Recruiter Contact: ")
+            Job_description = input("Enter Job Description: ")
 
             console_obj.create_job_opening(job_title, location, recruiter_contact, job_description)
 

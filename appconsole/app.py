@@ -86,11 +86,9 @@ class SubmitFeedbackResource(Resource):
 
 # Add resources to the API
 api.add_resource(CreateEmployeeResource, '/create_employee')
-api.add_resource(CreateJobsResource, '/create_jobs')
-api.add_resource(SubmitFeedbackResource, '/submit_feedback')
+
 
 if __name__ == '__main__':
     # Initialize Flask app and run it
-    print("Server is running at http://127.0.0.1:5000/")
     logging.debug('Server is running at http://127.0.0.1:5000/')
     app.run(debug=True)

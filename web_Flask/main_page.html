@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/style.css">
+    <script src="scripts/jquerylib.js" defer></script>
+    <script  src="scripts/main_page.js" defer></script>
+    <title>HR Web App</title>
+</head>
+<body>
+
+    <nav>
+        <!-- My Profile division with dropdown linked addresses list -->
+        <li class="profile-dropdown">
+            <a href="#" class="profile-link">
+                <img src="path/to/profile-photo.jpg" alt="My profile" class="profile-photo">
+            </a>
+            <div class="dropdown-content">
+                <a href="http://localhost:5000/My_profile">My Profile</a>
+                <button id="showModaladdemployeebtn">Add Employee</button>
+                <button id="showModalpostjobbtn">Post Job</button>
+                <button id="showModalfeedbackbtn">Feedback</button>
+            </div>
+        </li>
+
+        <div>
+            <a href="http://localhost:5000/"><img src="images/Logo.JPEG" alt="Logo" class="logo">Home</a>
+        </div>
+
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search ...">
+            <button id="searchButton">Search</button>
+        </div>
+    </nav>
+
+    <main>
+        <div class="button-container">
+            <button id="employeesButton">Show Employees</button>
+            <button id="jobsButton">Show Job Openings</button>
+        </div>
+
+        <!-- Employees Section -->
+        <div class="section" id="employeesSection">
+            <h2>Employees</h2>
+            <div class="slides" id="employeeSlides">
+                <!-- Placeholder slides, replace with actual data dynamically -->
+                <div class="slide">Employee 1</div>
+                <div class="slide">Employee 2</div>
+                <div class="slide">Employee 3</div>
+            </div>
+        </div>
+
+        <!-- Job Openings Section -->
+        <div class="section" id="jobsSection">
+            <h2>Job Openings</h2>
+            <div class="slides" id="jobsSlides">
+                <!-- Placeholder slides, replace with actual data dynamically -->
+                <div class="slide">Job  1</div>
+                <div class="slide">Job  2</div>
+                <div class="slide">Job  3</div>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2024 HR Web App</p>
+        <a href="#">Share Feedback . . .  </a>
+    </footer>
+    <!--addemployeemodaldisplay-->
+    <div id="infoModal_addemployee" class="modal_addemployee">
+        <div class="modal-content_addemployee">
+          <span class="closeemp">&times;</span>
+          <label for="First_name">First_name:</label>
+          <input type="text" id="First_name" required>
+          <label for="Last_name">Last_name:</label>
+          <input type="text" id="Last_name" required>
+          <label for="Employee_skills">Employee_Skills:</label>
+          <input type="text" id="Employee_skills" required>
+          <label for="Education">Education:</label>
+          <input type="text" id="Education" required>
+          <label for="Employee_contact">Employee_contact:</label>
+          <input type="text" id="Employee_contact" required>
+          <button id="submitBtnenp">Submit</button>
+        </div>
+      </div>
+      <!--postjobmodaldisplay-->
+      <div id="infoModal_postjob" class="modal_postjob">
+        <div class="modal-content_postjob">
+          <span class="closejob">&times;</span>
+          <label for="Job_title">Job_title:</label>
+          <input type="text" id="Job_title" required>
+          <label for="Location">Location:</label>
+          <input type="text" id="Location" required>
+          <label for="Job_description">Job_description:</label>
+          <input type="text" id="job_description" required>
+          <label for="Recruiter_contact">Recruiter_contact:</label>
+          <input type="text" id="Recruiter_contact" required>
+          <button id="submitBtnjob">Submit</button>
+        </div>
+       </div>
+       <!--feedbackmodaldisplay-->
+    <div id="infoModal_feedback" class="modal_feedback">
+        <div class="modal-content_feedback">
+          <span class="closefeedback">&times;</span>
+          <label for="user_name">user_name:</label>
+          <input type="text" id="user_name" required>
+          <label for="email">email:</label>
+          <input type="email" id="email" required>
+          <label for="subject">subject:</label>
+          <input type="text" id="subject" required>
+          <label for="message">message:</label>
+          <input type="text" id="message" required>
+          <button id="submitBtnfeedback">Submit</button>
+        </div>
+      </div>
+      
+</body>
+</html>
