@@ -115,7 +115,7 @@ class Console(cmd.Cmd):
         if job_opening:
 
             print(f"Job Opening Details:\nJob Title: {job_opening.Job_title}\nLocation: {job_opening.Location}\n"
-                f"Recruiter Contact: {Job_opening.Recruiter_contact}\nDescription: {job_opening.Job_description}")
+                f"Recruiter Contact: {job_opening.Recruiter_contact}\nDescription: {job_opening.Job_description}")
         else:
             print(f"No profile found for {profile_name}")
 

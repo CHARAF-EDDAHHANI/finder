@@ -40,8 +40,11 @@ def teardown_request(exception=None):
 
 # Routes using Flask-RESTful
 # Define a default route
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def index():
+    if request.method == 'POST':
+
+    
         return render_template('main_page.html')  # You can replace 'index.html' with your desired template
 
 class CreateEmployeeResource(Resource):
@@ -88,6 +91,62 @@ class SubmitFeedbackResource(Resource):
         except Exception as e:
             # Handle other unexpected errors
             return {"error": "Internal server error", "details": str(e)}, 500
+
+# Add a new route to fetch employees
+@app.route('/get_employees', methods=['GET'])
+def get_employees():
+    try:
+        # Fetch employee data from the database
+        employees = g.session.query(Employee).all()  # Assuming you have an Employee model
+
+        # Convert employee data to a list of dictionaries
+        employee_data = [
+            {
+                'first_name': employee.first_name,
+                'last_name': employee.last_name,
+                'employee_skills': employee.employee_skills,
+                'education': employee.education
+            }
+            for employee in employees
+        ]
+
+        # Return employee data as JSON
+        return jsonify(employee_data)
+    except SQLAlchemyError as e:
+        # Handle database-related errors
+        g.session.rollback()
+        return jsonify({'error': 'Database error', 'details': str(e)}), 500
+    except Exception as e:
+        # Handle other unexpected errors
+        return jsonify({'error': 'Internal server error', 'details': str(e)}), 500
+
+# Add a new route to fetch jobs
+@app.route('/get_jobs', methods=['GET'])
+def get_jobs():
+    try:
+        # Fetch job data from the database
+        jobs = g.session.query(Job).all()  # Assuming you have a Job model
+
+        # Convert job data to a list of dictionaries
+        job_data = [
+            {
+                'job_title': job.job_title,
+                'location': job.location,
+                'recruiter_contact': job.recruiter_contact,
+                'job_description': job.job_description
+            }
+            for job in jobs
+        ]
+
+        # Return job data as JSON
+        return jsonify(job_data)
+    except SQLAlchemyError as e:
+        # Handle database-related errors
+        g.session.rollback()
+        return jsonify({'error': 'Database error', 'details': str(e)}), 500
+    except Exception as e:
+        # Handle other unexpected errors
+        return jsonify({'error': 'Internal server error', 'details': str(e)}), 500
 
 # Add resources to the API
 api.add_resource(CreateEmployeeResource, '/create_employee')
