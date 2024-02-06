@@ -6,8 +6,6 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
     <script src="{{ url_for('static', filename='scripts/jquerylib.js') }}" defer></script>
     <script src="{{ url_for('static', filename='scripts/main_page.js') }}" defer></script>
-    <img src="{{ url_for('static', filename='images/Logo.JPEG') }}" alt="Logo" class="logo">
-
     <title>HR Web App</title>
 </head>
 <body>
@@ -27,7 +25,7 @@
         </li>
 
         <div>
-            <a href="http://localhost:5000/"><img src="images/Logo.JPEG" alt="Logo" class="logo">Home</a>
+            <a href="http://34.229.68.97:5000/"><img src="{{ url_for('static', filename='images/Logo.JPEG') }}" alt="Logo" class="logo">Home</a>
         </div>
 
         <div class="search-bar">
