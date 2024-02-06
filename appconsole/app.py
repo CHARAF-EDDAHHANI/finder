@@ -2,7 +2,7 @@
 
 import sys
 import logging
-from flask import Flask, request, jsonify, g
+from flask import Flask, request, jsonify, g, render_template
 from flask_cors import CORS
 from flask_restful import Api, Resource
 from sqlalchemy import create_engine
@@ -39,6 +39,11 @@ def teardown_request(exception=None):
         session.close()
 
 # Routes using Flask-RESTful
+# Define a default route
+@app.route('/')
+def index():
+        return render_template('main_page.html')  # You can replace 'index.html' with your desired template
+
 class CreateEmployeeResource(Resource):
     def post(self):
         try:
@@ -90,5 +95,9 @@ api.add_resource(CreateEmployeeResource, '/create_employee')
 
 if __name__ == '__main__':
     # Initialize Flask app and run it
-    logging.debug('Server is running at http://127.0.0.1:5000/')
-    app.run(debug=True)
+    server_ip = '34.229.68.97'  
+    log_message = f'Server is running at http://{server_ip}:5000/'
+    logging.debug(log_message)
+    #run flask app listen on all available public interfaces
+    app.run(host='0.0.0.0', port=5000, debug=True)
+
