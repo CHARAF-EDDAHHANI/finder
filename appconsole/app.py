@@ -43,9 +43,9 @@ def teardown_request(exception=None):
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
+        return jsonify({"message": "This is a POST request!"})
 
-    
-        return render_template('main_page.html')  # You can replace 'index.html' with your desired template
+    return render_template('main_page.html')  # You can replace 'index.html' with your desired template
 
 class CreateEmployeeResource(Resource):
     def post(self):
