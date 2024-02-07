@@ -149,8 +149,9 @@ def get_jobs():
         return jsonify({'error': 'Internal server error', 'details': str(e)}), 500
 
 # Add resources to the API
-api.add_resource(CreateEmployeeResource, '/create_employee')
-
+api.add_resource(CreateEmployeeResource, '/create_employee') #creating employee
+api.add_resource(CreateJobsResource, '/create_job')  #  creating jobs
+api.add_resource(SubmitFeedbackResource, '/submit_feedback')  #submitting feedback
 
 if __name__ == '__main__':
     # Initialize Flask app and run it

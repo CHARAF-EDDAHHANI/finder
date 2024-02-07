@@ -108,7 +108,7 @@ $(document).ready(function () {
     });
 
     submitBtnemp.click(function() {
-        var Fisrt_name = $('#First_name').val();
+        var First_name = $('#First_name').val();
         var Last_name = $('#Last_name').val();
         var Employee_skills = $('#Employee_skills').val();
         var Education = $('#Education').val();
@@ -118,7 +118,7 @@ $(document).ready(function () {
         $.ajax({
             url: 'http://34.229.68.97:5000/create_employee',
             method: 'POST',
-            data: { Fisrt_name : Fisrt_name, Last_name : Last_name, Employee_contact : Employee_contact, Employee_skills : Employee_skills, Education : Education },
+            data: { First_name : First_name, Last_name : Last_name, Employee_contact : Employee_contact, Employee_skills : Employee_skills, Education : Education },
             success: function(response) {
                 console.log('Data sent successfully:', response);
                 modalemployee.css('display', 'none');
@@ -152,7 +152,7 @@ $(document).ready(function () {
 
         // Perform AJAX request to send data to the backend
         $.ajax({
-            url: 'http://34.229.68.97:5000/',
+            url: 'http://34.229.68.97:5000/create_job',
             method: 'POST',
             data: { Job_title : Job_title, Location : Location, Job_description: Job_description, Recruiter_contact : Recruiter_contact },
             success: function(response) {
@@ -188,9 +188,9 @@ $(document).ready(function () {
 
         // Perform AJAX request to send data to the backend
         $.ajax({
-            url: 'http://34.229.68.97:5000/',
+            url: 'http://34.229.68.97:5000/submit_feedback',
             method: 'POST',
-            data: { user_name : user_name, email : email, subject: subject, Recruiter_contact : message },
+            data: { user_name : user_name, email : email, subject: subject, message : message },
             success: function(response) {
                 console.log('Data sent successfully:', response);
                 modalfeedback.css('display', 'none');
