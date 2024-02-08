@@ -51,7 +51,7 @@ class Console(cmd.Cmd):
         Create a new employee.
         Usage: create_employee <first_name> <last_name> <employee_skills> <education>  <employee_contact>
         """
-        args_list = shlex.split(args)
+        args_list = args.split()
         if len(args_list) < 5:
             print("Invalid number of arguments. See 'help create_employee' for usage.")
             return
@@ -343,7 +343,7 @@ if __name__ == "__main__":
             Recruiter_contact = input("Enter Recruiter Contact: ")
             Job_description = input("Enter Job Description: ")
 
-            console_obj.create_job_opening(job_title, location, recruiter_contact, job_description)
+            console_obj.create_job_opening(Job_title, Location, Recruiter_contact, Job_description)
 
         elif choice == '3':
             # Input for showing details
@@ -365,17 +365,17 @@ if __name__ == "__main__":
             profile_name = input("Enter profile name: ")
             console_obj.do_delete(f"{profile_type} {profile_name}")
 
-        elif choice == '6':
+        elif choice == '8':
             # Submit user feedback
             console_obj.do_submit_feedback('')
 
-        elif choice == '7':
+        elif choice == '6':
             # Input for saving to JSON
             class_type = input("Enter Class Type (Employee/JobOpening): ")
             filename = input("Enter Filename: ")
             console_obj.do_save_to_json(f"{class_type} {filename}")
 
-        elif choice == '8':
+        elif choice == '7':
             # Input for loading from JSON
             class_type = input("Enter Class Type (Employee/JobOpening): ")
             filename = input("Enter Filename: ")
