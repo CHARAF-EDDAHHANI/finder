@@ -3,12 +3,12 @@
 from os import getenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
-from employee import Employee
-from jobs import JobOpening
+from employees import employeemodel
+from jobs import jobmodel
 from appengine.filestorage import FileStorage
 import basemodel
 
-classes = {"Employee": Employee, "JobOpening": JobOpening}
+classes = {"employeemodel": employeemodel, "jobmodel": jobmodel}
 
 class DBStorage:
     __engine = None
@@ -16,7 +16,7 @@ class DBStorage:
 
     def __init__(self):
         HR_ENV = getenv('HR_ENV')
-        self.__engine = create_engine('sqlite:///hr_console.db')
+        self.__engine = create_engine('sqlite:///app.db')
         if HR_ENV == "test":
             basemodel.Base.metadata.drop_all(self.__engine)
 

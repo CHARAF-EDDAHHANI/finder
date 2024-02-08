@@ -4,11 +4,11 @@ import uuid
 from sqlalchemy import Column, String, Text
 from basemodel import BaseModel
 
-class JobOpening(BaseModel):
-    __tablename__ = 'job_openings'
+class jobmodel(BaseModel):
+    __tablename__ = 'jobs'
 
-    Job_id = Column(String, primary_key=True, default=str(uuid.uuid4()))
-    Job_title = Column(String)
-    Location = Column(String)
-    Recruiter_contact = Column(String)
-    Job_description = Column(Text)
+    job_id = Column(String, primary_key=True, default=str(uuid.uuid4()))
+    job_title = Column(String)
+    location = Column(String)
+    recruiter_contact = Column(String)
+    job_description = Column(Text)

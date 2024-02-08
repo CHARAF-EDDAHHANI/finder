@@ -108,11 +108,11 @@ $(document).ready(function () {
     });
 
     submitBtnemp.click(function() {
-        var first_name = $('#First_name').val();
-        var last_name = $('#Last_name').val();
-        var employee_skills = $('#Employee_skills').val();
-        var education = $('#Education').val();
-        var employee_contact = $('#Employee_contact').val();
+        var first_name = $('#first_name').val();
+        var last_name = $('#last_name').val();
+        var employee_skills = $('#employee_skills').val();
+        var education = $('#education').val();
+        var employee_contact = $('#employee_contact').val();
 
         // Perform AJAX request to send data to the backend
         $.ajax({
@@ -145,16 +145,16 @@ $(document).ready(function () {
     });
 
     submitBtnjob.click(function() {
-        var Job_title = $('#Job_title').val();
-        var Location = $('#Location').val();
-        var Job_description = $('#Job_description').val();
-        var Recruiter_contact = $('#Recruiter_contact').val();
+        var job_title = $('#job_title').val();
+        var location = $('#location').val();
+        var job_description = $('#job_description').val();
+        var Recruiter_contact = $('#recruiter_contact').val();
 
         // Perform AJAX request to send data to the backend
         $.ajax({
             url: 'http://34.229.68.97:5000/create_job',
             method: 'POST',
-            data: { Job_title : Job_title, Location : Location, Job_description: Job_description, Recruiter_contact : Recruiter_contact },
+            data: { job_title : job_title, location : location, job_description: job_description, recruiter_contact : recruiter_contact },
             success: function(response) {
                 console.log('Data sent successfully:', response);
                 modaljob.css('display', 'none');

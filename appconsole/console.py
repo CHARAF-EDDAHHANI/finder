@@ -3,27 +3,24 @@
 import sys
 import cmd
 import shlex
-import json
 from sqlalchemy import or_, func
-from datetime import datetime
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy.sql import text
-from PIL import Image
-from employee import Employee
-from jobs import JobOpening
-from feedback import Feedback
+from employees import employeemodel
+from jobs import jobmodel
+from feedback import feedbackmodel
 from appengine.filestorage import FileStorage
 from appengine.db_storage import DBStorage
 import basemodel
 
-DATABASE_URL = 'sqlite:///appengine/finder.db'  # Update the path to your finder.db
+DATABASE_URL = 'sqlite:///appengine/app.db'  # Update the path to db
 engine = create_engine(DATABASE_URL, echo=True)
 basemodel.Base.metadata.create_all(bind=engine)
 Session = sessionmaker(bind=engine)
 session = Session()
 storage = DBStorage()
 storage.reload()
+
 
 class Console(cmd.Cmd):
     intro = "Welcome to the HR Console. Type 'help' to list available commands."
@@ -36,20 +33,38 @@ class Console(cmd.Cmd):
 
     def create_employee(self, first_name, last_name, employee_skills, education, employee_contact):
         try:
-            # Validate input types or any other conditions here
-
-            employee = Employee(first_name=first_name, last_name=last_name, employee_skills=employee_skills,
-                            education=education, employee_contact=employee_contact)
+            employee = employeemodel(
+                first_name=first_name,
+                last_name=last_name,
+                employee_skills=employee_skills,
+                education=education,
+                employee_contact=employee_contact
+            )
             self.session.add(employee)
             self.session.commit()
             print("Employee created successfully.")
         except Exception as e:
             print(f"Error creating employee: {e}")
 
+    def create_job(self, job_title, location, recruiter_contact, job_description):
+        try:
+            # Validate input types or any other conditions here
+            job = jobmodel(
+                job_title=job_title,
+                location=location,
+                recruiter_contact=recruiter_contact,
+                job_description=job_description
+            )
+            self.session.add(job)
+            self.session.commit()
+            print("Job Opening created successfully.")
+        except Exception as e:
+            print(f"Error creating job opening: {e}")
+
     def do_create_employee(self, args):
         """
         Create a new employee.
-        Usage: create_employee <first_name> <last_name> <employee_skills> <education>  <employee_contact>
+        Usage: create_employee <first_name> <last_name> <employee_skills> <education> <employee_contact>
         """
         args_list = args.split()
         if len(args_list) < 5:
@@ -58,29 +73,17 @@ class Console(cmd.Cmd):
 
         self.create_employee(*args_list)
 
-    def do_create_job_opening(self, args):
+    def do_create_job(self, args):
         """
-        Create a new job opening.
-        Usage: create_job_opening <job_title> <location> <recruiter_contact> <job_description>
+        Create a new job.
+        Usage: create_job <job_title> <location> <recruiter_contact> <job_description>
         """
         args_list = shlex.split(args)
         if len(args_list) < 4:
             print("Invalid number of arguments. See 'help create_job_opening' for usage.")
             return
 
-        self.create_job_opening(*args_list)
-
-    def create_job_opening(self, Job_title, Location, Recruiter_contact, Job_description):
-        try:
-            # Validate input types or any other conditions here
-
-            job_opening = JobOpening(Job_title=Job_title, Location=Location, Recruiter_contact=Recruiter_contact,
-                                Job_description=Job_description)
-            self.session.add(job_opening)
-            self.session.commit()
-            print("Job Opening created successfully.")
-        except Exception as e:
-            print(f"Error creating job opening: {e}")
+        self.create_job(*args_list)
 
     def do_show(self, args):
         """
@@ -95,27 +98,26 @@ class Console(cmd.Cmd):
         profile_name = args_list[1]
 
         # Check if the profile_name corresponds to an employee
-        employee = self.session.query(Employee).filter(
+        employee = self.session.query(employeemodel).filter(
             or_(
-                func.concat(Employee.first_name, ' ', Employee.last_name) == profile_name,
-                Employee.first_name == profile_name,
-                Employee.last_name == profile_name
+                func.concat(employeemodel.first_name, ' ', employeemodel.last_name) == profile_name,
+                employeemodel.first_name == profile_name,
+                employeemodel.last_name == profile_name
             )
         ).first()
 
         if employee:
             print(f"Employee Details:\nFirst Name: {employee.first_name}\nLast Name: {employee.last_name}\n"
-                f"Skills: {employee.employee_skills}\nEducation: {employee.education}\n"
-                f"Contact: {employee.employee_contact}")
+                  f"Skills: {employee.employee_skills}\nEducation: {employee.education}\n"
+                  f"Contact: {employee.employee_contact}")
             return
 
-        # Check if the profile_name corresponds to a job opening
-        job_opening = self.session.query(JobOpening).filter(JobOpening.job_title == profile_name).first()
+        # Check if the profile_name corresponds to a job
+        job = self.session.query(jobmodel).filter(jobmodel.job_title == profile_name).first()
 
-        if job_opening:
-
-            print(f"Job Opening Details:\nJob Title: {job_opening.Job_title}\nLocation: {job_opening.Location}\n"
-                f"Recruiter Contact: {job_opening.Recruiter_contact}\nDescription: {job_opening.Job_description}")
+        if job:
+            print(f"Job Details:\nJob Title: {job.job_title}\nLocation: {job.location}\n"
+                  f"Recruiter Contact: {job.recruiter_contact}\nDescription: {job.job_description}")
         else:
             print(f"No profile found for {profile_name}")
 
@@ -133,22 +135,21 @@ class Console(cmd.Cmd):
         attribute_name = args_list[1]
         new_value = args_list[2]
 
-        if profile_type.lower() == 'employee':
+        if profile_type.lower() == 'employeemodel':
             self.update_employee(profile_type, attribute_name, new_value)
-        elif profile_type.lower() == 'jobopening':
+        elif profile_type.lower() == 'jobmodel':
             self.update_job_opening(profile_type, attribute_name, new_value)
         else:
             print(f"Invalid profile type: {profile_type}")
 
     def update_employee(self, profile_type, attribute_name, new_value):
         try:
-            # Validate input types or any other conditions here
             # Retrieve the employee based on the profile name
-            employee = self.session.query(Employee).filter(
+            employee = self.session.query(employeemodel).filter(
                 or_(
-                    func.concat(Employee.first_name, ' ', Employee.last_name) == profile_type,
-                    Employee.first_name == profile_type,
-                    Employee.last_name == profile_type
+                    func.concat(employeemodel.first_name, ' ', employeemodel.last_name) == profile_type,
+                    employeemodel.first_name == profile_type,
+                    employeemodel.last_name == profile_type
                 )
             ).first()
 
@@ -173,16 +174,16 @@ class Console(cmd.Cmd):
     def update_job_opening(self, profile_type, attribute_name, new_value):
         try:
             # Validate input types or any other conditions here
-            # Retrieve the job opening based on the profile name
-            job_opening = self.session.query(JobOpening).filter(JobOpening.Job_title == profile_type).first()
+            # Retrieve the job based on the profile name
+            job_opening = self.session.query(jobmodel).filter(jobmodel.job_title == profile_type).first()
 
             if not job_opening:
                 print(f"No job opening found with title {profile_type}")
                 return
 
             # Update the specified attribute with the new value
-            if attribute_name.lower() == 'Job_title':
-                job_opening.Job_title = new_value
+            if attribute_name.lower() == 'job_title':
+                job_opening.job_title = new_value
             else:
                 print(f"Invalid attribute name for job opening: {attribute_name}")
                 return
@@ -205,9 +206,9 @@ class Console(cmd.Cmd):
         profile_type = args_list[0]
         profile_name = args_list[1]
 
-        if profile_type.lower() == 'employee':
+        if profile_type.lower() == 'employees':
             self.delete_employee(profile_name)
-        elif profile_type.lower() == 'jobopening':
+        elif profile_type.lower() == 'jobs':
             self.delete_job_opening(profile_name)
         else:
             print(f"Invalid profile type: {profile_type}")
@@ -215,11 +216,11 @@ class Console(cmd.Cmd):
     def delete_employee(self, profile_name):
         try:
             # Retrieve the employee based on the profile name
-            employee = self.session.query(Employee).filter(
+            employee = self.session.query(employeemodel).filter(
                 or_(
-                    func.concat(Employee.first_name, ' ', Employee.last_name) == profile_name,
-                    Employee.first_name == profile_name,
-                    Employee.last_name == profile_name
+                    func.concat(employeemodel.first_name, ' ', employeemodel.last_name) == profile_name,
+                    employeemodel.first_name == profile_name,
+                    employeemodel.last_name == profile_name
                 )
             ).first()
 
@@ -232,19 +233,19 @@ class Console(cmd.Cmd):
         except Exception as e:
             print(f"Error deleting employee: {e}")
 
-    def delete_job_opening(self, profile_name):
+    def delete_job(self, profile_name):
         try:
             # Retrieve the job opening based on the profile name
-            job_opening = self.session.query(JobOpening).filter(JobOpening.Job_title == profile_name).first()
+            job = self.session.query(jobmodel).filter(jobmodel.job_title == profile_name).first()
 
-            if job_opening:
-                self.session.delete(job_opening)
+            if job:
+                self.session.delete(job)
                 self.session.commit()
-                print(f"Job Opening with title {profile_name} deleted successfully.")
+                print(f"Job  with title {profile_name} deleted successfully.")
             else:
-                print(f"No job opening found with title {profile_name}")
+                print(f"No job  found with title {profile_name}")
         except Exception as e:
-            print(f"Error deleting job opening: {e}")
+            print(f"Error deleting job : {e}")
 
     # Exit console
     def do_exit(self, args):
@@ -271,7 +272,7 @@ class Console(cmd.Cmd):
         subject = input("Feedback Subject: ")
         message = input("Your Feedback: ")
 
-        feedback = Feedback(user_name, email, subject, message)
+        feedback = feedbackmodel(user_name, email, subject, message)
         # Optionally, we can save the feedback to a file or database for future review.
         with open('feedback.txt', 'a') as feedback_file:
             feedback_file.write(f"Name: {feedback.user_name}, Email: {feedback.email}, Subject: {feedback.subject}, Message: {feedback.message}\n")
@@ -338,12 +339,12 @@ if __name__ == "__main__":
 
         elif choice == '2':
             # Input for creating a job
-            Job_title = input("Enter Job Title: ")
-            Location = input("Enter Location: ")
-            Recruiter_contact = input("Enter Recruiter Contact: ")
-            Job_description = input("Enter Job Description: ")
+            job_title = input("Enter Job Title: ")
+            location = input("Enter Location: ")
+            recruiter_contact = input("Enter Recruiter Contact: ")
+            job_description = input("Enter Job Description: ")
 
-            console_obj.create_job_opening(Job_title, Location, Recruiter_contact, Job_description)
+            console_obj.create_job(job_title, location, recruiter_contact, job_description)
 
         elif choice == '3':
             # Input for showing details

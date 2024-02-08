@@ -7,7 +7,7 @@ from basemodel import BaseModel
 import datetime
 from sqlalchemy.sql import func
 
-class Employee(BaseModel):
+class employeemodel(BaseModel):
     __tablename__ = 'employees'
 
     id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
