@@ -67,7 +67,7 @@ class CreateJobsResource(Resource):
         try:
             data = request.json
             console = Console(g.session, None)
-            console.create_jobs(**data)
+            console.create_job(**data)
             return {"message": "Job created successfully"}, 201
         except SQLAlchemyError as e:
             # Handle database-related errors
