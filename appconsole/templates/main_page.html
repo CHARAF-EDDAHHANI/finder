@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
     <script src="{{ url_for('static', filename='scripts/main_page.js') }}" defer></script>
     <title>HR Web App</title>
 </head>
+
 <body>
 
     <nav>
@@ -25,11 +27,12 @@
         </li>
 
         <div>
-            <a href="http://34.229.68.97:5000/"><img src="{{ url_for('static', filename='images/Logo.JPEG') }}" alt="Logo" class="logo">Home</a>
+            <a href="http://34.229.68.97:5000/"><img src="{{ url_for('static', filename='images/Logo.JPEG') }}"
+                    alt="Logo" class="logo">Home</a>
         </div>
 
         <div class="search-bar">
-            <input type="text" id="searchInput" placeholder="Search ...">
+            <input type="text" id="searchInput" placeholder="Search ..." autocomplete="off">
             <button id="searchButton">Search</button>
         </div>
     </nav>
@@ -56,63 +59,64 @@
             <h2>Job Openings</h2>
             <div class="slides" id="jobsSlides">
                 <!-- Placeholder slides, replace with actual data dynamically -->
-                <div class="slide">Job  1</div>
-                <div class="slide">Job  2</div>
-                <div class="slide">Job  3</div>
+                <div class="slide">Job 1</div>
+                <div class="slide">Job 2</div>
+                <div class="slide">Job 3</div>
             </div>
         </div>
     </main>
     <footer>
         <p>&copy; 2024 HR Web App</p>
-        <a href="#">Share Feedback . . .  </a>
+        <a href="#">Share Feedback . . . </a>
     </footer>
     <!--addemployeemodaldisplay-->
     <div id="infoModal_addemployee" class="modal_addemployee">
         <div class="modal-content_addemployee">
-          <span class="closeemp">&times;</span>
-          <label for="first_name">first_name:</label>
-          <input type="text" id="first_name" required>
-          <label for="last_name">last_name:</label>
-          <input type="text" id="last_name" required>
-          <label for="employee_skills">employee_skills:</label>
-          <input type="text" id="employee_skills" required>
-          <label for="education">education:</label>
-          <input type="text" id="education" required>
-          <label for="employee_contact">employee_contact:</label>
-          <input type="text" id="employee_contact" required>
-          <button id="submitBtnenp">Submit</button>
+            <span class="closeemp">&times;</span>
+            <label for="first_name">First Name:</label>
+            <input type="text" id="first_name" required autocomplete="given-name">
+            <label for="last_name">Last Name:</label>
+            <input type="text" id="last_name" required autocomplete="family-name">
+            <label for="employee_skills">Employee Skills:</label>
+            <input type="text" id="employee_skills" required>
+            <label for="education">Education:</label>
+            <input type="text" id="education" required>
+            <label for="employee_contact">Employee Contact:</label>
+            <input type="text" id="employee_contact" required autocomplete="tel">
+            <button id="submitBtnenp">Submit</button>
         </div>
-      </div>
-      <!--postjobmodaldisplay-->
-      <div id="infoModal_postjob" class="modal_postjob">
+    </div>
+    <!--postjobmodaldisplay-->
+    <div id="infoModal_postjob" class="modal_postjob">
         <div class="modal-content_postjob">
-          <span class="closejob">&times;</span>
-          <label for="job_title">job_title:</label>
-          <input type="text" id="job_title" required>
-          <label for="location">location:</label>
-          <input type="text" id="location" required>
-          <label for="job_description">job_description:</label>
-          <input type="text" id="job_description" required>
-          <label for="recruiter_contact">recruiter_contact:</label>
-          <input type="text" id="recruiter_contact" required>
-          <button id="submitBtnjob">Submit</button>
+            <span class="closejob">&times;</span>
+            <label for="job_title">Job Title:</label>
+            <input type="text" id="job_title" required>
+            <label for="location">Location:</label>
+            <input type="text" id="location" required>
+            <label for="job_description">Job Description:</label>
+            <input type="text" id="job_description" required>
+            <label for="recruiter_contact">Recruiter Contact:</label>
+            <input type="text" id="recruiter_contact" required autocomplete="tel">
+            <button id="submitBtnjob">Submit</button>
         </div>
-       </div>
-       <!--feedbackmodaldisplay-->
+    </div>
+    <!--feedbackmodaldisplay-->
     <div id="infoModal_feedback" class="modal_feedback">
         <div class="modal-content_feedback">
-          <span class="closefeedback">&times;</span>
-          <label for="user_name">user_name:</label>
-          <input type="text" id="user_name" required>
-          <label for="email">email:</label>
-          <input type="email" id="email" required>
-          <label for="subject">subject:</label>
-          <input type="text" id="subject" required>
-          <label for="message">message:</label>
-          <input type="text" id="message" required>
-          <button id="submitBtnfeedback">Submit</button>
+            <span class="closefeedback">&times;</span>
+            <label for="user_name">User Name:</label>
+            <input type="text" id="user_name" required>
+            <label for="email">Email:</label>
+            <input type="email" id="email" required>
+            <label for="subject">Subject:</label>
+            <input type="text" id="subject" required>
+            <label for="message">Message:</label>
+            <input type="text" id="message" required>
+            <button id="submitBtnfeedback">Submit</button>
         </div>
-      </div>
-      
+    </div>
+
 </body>
+
 </html>

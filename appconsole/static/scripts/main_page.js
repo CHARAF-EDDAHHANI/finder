@@ -148,7 +148,7 @@ $(document).ready(function () {
         var job_title = $('#job_title').val();
         var location = $('#location').val();
         var job_description = $('#job_description').val();
-        var Recruiter_contact = $('#recruiter_contact').val();
+        var recruiter_contact = $('#recruiter_contact').val();
 
         // Perform AJAX request to send data to the backend
         $.ajax({
