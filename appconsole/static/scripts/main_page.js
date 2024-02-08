@@ -108,17 +108,17 @@ $(document).ready(function () {
     });
 
     submitBtnemp.click(function() {
-        var First_name = $('#First_name').val();
-        var Last_name = $('#Last_name').val();
-        var Employee_skills = $('#Employee_skills').val();
-        var Education = $('#Education').val();
-        var Employee_contact = $('#Employee_contact').val();
+        var first_name = $('#First_name').val();
+        var last_name = $('#Last_name').val();
+        var employee_skills = $('#Employee_skills').val();
+        var education = $('#Education').val();
+        var employee_contact = $('#Employee_contact').val();
 
         // Perform AJAX request to send data to the backend
         $.ajax({
             url: 'http://34.229.68.97:5000/create_employee',
             method: 'POST',
-            data: { First_name : First_name, Last_name : Last_name, Employee_contact : Employee_contact, Employee_skills : Employee_skills, Education : Education },
+            data: { first_name : first_name, last_name : last_name, employee_contact : employee_contact, employee_skills : employee_skills, education : education },
             success: function(response) {
                 console.log('Data sent successfully:', response);
                 modalemployee.css('display', 'none');
