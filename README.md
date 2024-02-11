@@ -4,8 +4,7 @@ portfolio project for fundation
 
 # Introduction of team members, and each person’s role:
 
-Hello everyone, my name is Charaf Eddahhani , and I am thrilled to be here today to present my portfolio project. While the team production of the project might be small, my passion and dedication are anything but!
-As the sole member of this project, I took on various roles, including project management, design, and development. Over the past weeks, I've poured my energy into crafting an impactful and meaningful project that I'm excited to share with all of you.
+As the sole member of this project, I took on various roles, including project management, design, and development.I've poured my energy into crafting an impactful and meaningful project that I'm excited to share with all of you.
 Throughout this journey, I've encountered challenges, made discoveries, and honed my skills in ways that have deepened my understanding of the technology and architecture I've employed. Without further ado, let's dive into the story of the project and the exciting elements I've brought to life.
 
 
