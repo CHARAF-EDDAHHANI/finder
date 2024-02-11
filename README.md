@@ -2,20 +2,23 @@
 portfolio project for fundation
 
 
-#Introduction of team members, and each person’s role:
+# Introduction of team members, and each person’s role:
+
 Hello everyone, my name is Charaf Eddahhani , and I am thrilled to be here today to present my portfolio project. While the team production of the project might be small, my passion and dedication are anything but!
 As the sole member of this project, I took on various roles, including project management, design, and development. Over the past weeks, I've poured my energy into crafting an impactful and meaningful project that I'm excited to share with all of you.
 Throughout this journey, I've encountered challenges, made discoveries, and honed my skills in ways that have deepened my understanding of the technology and architecture I've employed. Without further ado, let's dive into the story of the project and the exciting elements I've brought to life.
 
 
-#Story of how your project was inspired:
+# Story of how your project was inspired:
+
 The inspiration for the Human Resources web application stems from a deep-seated belief in the power of technology to bridge the gap between talented job seekers and organizations seeking their unique skills. In today's fast-paced and dynamic job market, the need for an efficient and user-friendly platform to facilitate this connection became evident.
 Having witnessed the challenges faced by both job seekers navigating through a multitude of job boards and organizations grappling with the task of finding the right talent, I was inspired to create a solution that simplifies and enhances the recruitment process for everyone involved.
 The vision for this project revolves around fostering a collaborative and transparent environment where job seekers can showcase their skills, experiences, and aspirations, while organizations can efficiently discover and connect with the perfect candidates for their teams.
 As we delve into the technology and architecture powering this application, you'll see how the inspiration to create a seamless, accessible, and empowering platform has driven every aspect of our development journey.
 
 
-#Technology & Architecture:
+# Technology & Architecture:
+
 Our Human Resources web application is built on a robust and versatile technology stack designed to provide a seamless experience for both job seekers and organizations.
 Backend Development:
 Python: The backend of our application is powered by Python, a versatile and powerful programming language known for its readability and efficiency.
@@ -29,7 +32,8 @@ Our development process was marked by a commitment to continuous improvement and
 The combination of Python, Flask, HTML, CSS, jQuery, and the strategic shift from SQLite to MySQL underscores our commitment to creating a dynamic and user-friendly Human Resources web application. In the upcoming sections, we'll delve into core algorithms, code snippets, and the collaborative development process that brought this project to fruition.
 
 
-#Core algorithms and code snippet:
+# Core algorithms and code snippet:
+
 Initialization and Database Setup:
 The script starts by initializing necessary modules and creating a connection to the database using SQLAlchemy.
 It uses create_engine to create a connection to the database and sets up the necessary tables using the Base.metadata.create_all method.
@@ -112,7 +116,8 @@ if __name__ == "__main__":
  print("Invalid choice. Please enter a number between 1
 
 
-Discussion of process, collaboration and timeline 
+# Discussion of process, collaboration and timeline :
+
 Project Initiation:
 The project began with a clear vision of creating a Human Resources web application to connect job seekers with organizations efficiently.
 Identified key functionalities, including employee and job creation, profile management, and a feedback system.
