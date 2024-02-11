@@ -1,6 +1,6 @@
 # -Creating an HR web application-
 
-portfolio project for fundation
+portfolio project for ALX programme fundation
 
 
 # Introduction of team members, and each person’s role:
