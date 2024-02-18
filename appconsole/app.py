@@ -12,14 +12,16 @@ from console import Console
 from appengine.db_storage import DBStorage  # Assuming this is the correct import path
 from basemodel import Base  # Assuming this is the correct import path
 
+# set up logging config
 logging.basicConfig(level=logging.DEBUG)
 
+# initialize Flask app and RESTful API
 app = Flask(__name__)
 api = Api(app)
 CORS(app)
 
 # Configure Flask app
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///finder.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///finder.db' #address sql db storing to finder.db
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Database setup
@@ -30,10 +32,14 @@ Session = sessionmaker(bind=engine)
 # Database session setup using Flask context
 @app.before_request
 def before_request():
+    # Before each incoming request, create a new database session and assign it to 'g.session'.
+    # 'g' is a special object provided by Flask for storing data during the lifetime of a request.
+    # It allows sharing data between different parts of a Flask application.
     g.session = Session()
 
 @app.teardown_request
 def teardown_request(exception=None):
+    # close the databse session after each request
     session = g.pop('session', None)
     if session is not None:
         session.close()
@@ -45,11 +51,14 @@ def index():
     if request.method == 'POST':
         return jsonify({"message": "This is a POST request!"})
 
-    return render_template('main_page.html')  # You can replace 'index.html' with your desired template
+    #render the main page template for GET requests
+    return render_template('main_page.html')  # it can replace 'index.html' with the desired template
 
+# Define resource classes for creating employee, jobs, and submitfeedback
 class CreateEmployeeResource(Resource):
     def post(self):
         try:
+            #handle POST request for craeting an employee
             data = request.json
             console = Console(g.session, None)
             console.create_employee(**data)
@@ -65,6 +74,7 @@ class CreateEmployeeResource(Resource):
 class CreateJobsResource(Resource):
     def post(self):
         try:
+            #handle POST request for creating jobs
             data = request.json
             console = Console(g.session, None)
             console.create_job(**data)
@@ -80,6 +90,7 @@ class CreateJobsResource(Resource):
 class SubmitFeedbackResource(Resource):
     def post(self):
         try:
+            #handle POST request for submitting Feedbacks
             data = request.json
             console = Console(g.session, None)
             console.submit_feedback(**data)
@@ -97,7 +108,7 @@ class SubmitFeedbackResource(Resource):
 def get_employees():
     try:
         # Fetch employee data from the database
-        employees = g.session.query(Employee).all()  # Assuming you have an Employee model
+        employees = g.session.query(employeemodel).all()  # Employee model
 
         # Convert employee data to a list of dictionaries
         employee_data = [
@@ -125,7 +136,7 @@ def get_employees():
 def get_jobs():
     try:
         # Fetch job data from the database
-        jobs = g.session.query(Job).all()  # Assuming you have a Job model
+        jobs = g.session.query(jobmodel).all()  #  Job model
 
         # Convert job data to a list of dictionaries
         job_data = [

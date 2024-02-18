@@ -13,15 +13,22 @@ from appengine.filestorage import FileStorage
 from appengine.db_storage import DBStorage
 import basemodel
 
+# Define the database URL and create the engine
 DATABASE_URL = 'sqlite:///appengine/app.db'  # Update the path to db
 engine = create_engine(DATABASE_URL, echo=True)
+
+# Create tables based on the defined models
 basemodel.Base.metadata.create_all(bind=engine)
+
+# Create a session to interact with the database
 Session = sessionmaker(bind=engine)
 session = Session()
+
+# Create storage instances for file and database storage
 storage = DBStorage()
 storage.reload()
 
-
+# Console class for handling user commands
 class Console(cmd.Cmd):
     intro = "Welcome to the HR Console. Type 'help' to list available commands."
     prompt = "(HR Console) "
@@ -31,8 +38,10 @@ class Console(cmd.Cmd):
         self.session = session
         self.storage = storage
 
+    # Method to create a new employee
     def create_employee(self, first_name, last_name, employee_skills, education, employee_contact):
         try:
+            # Create an instance of the employeemodel and add it to the session
             employee = employeemodel(
                 first_name=first_name,
                 last_name=last_name,
@@ -46,9 +55,10 @@ class Console(cmd.Cmd):
         except Exception as e:
             print(f"Error creating employee: {e}")
 
+    # Method to create a new job 
     def create_job(self, job_title, location, recruiter_contact, job_description):
         try:
-            # Validate input types or any other conditions here
+            # Create an instance of the jobmodel and add it to the session
             job = jobmodel(
                 job_title=job_title,
                 location=location,
@@ -57,10 +67,11 @@ class Console(cmd.Cmd):
             )
             self.session.add(job)
             self.session.commit()
-            print("Job Opening created successfully.")
+            print("Job created successfully.")
         except Exception as e:
-            print(f"Error creating job opening: {e}")
+            print(f"Error creating job : {e}")
 
+    # Command to create an employee from the console
     def do_create_employee(self, args):
         """
         Create a new employee.
@@ -73,6 +84,7 @@ class Console(cmd.Cmd):
 
         self.create_employee(*args_list)
 
+    # Command to create a job opening from the console
     def do_create_job(self, args):
         """
         Create a new job.
@@ -85,6 +97,7 @@ class Console(cmd.Cmd):
 
         self.create_job(*args_list)
 
+    # Command to show details of an entity (employee or job)
     def do_show(self, args):
         """
         Show details of an entity.
@@ -121,6 +134,7 @@ class Console(cmd.Cmd):
         else:
             print(f"No profile found for {profile_name}")
 
+     # Command to update details of a profile (employee or job)
     def do_update(self, args):
         """
         Update details of a profile.
@@ -142,6 +156,7 @@ class Console(cmd.Cmd):
         else:
             print(f"Invalid profile type: {profile_type}")
 
+    # Method to update details of an employee
     def update_employee(self, profile_type, attribute_name, new_value):
         try:
             # Retrieve the employee based on the profile name
@@ -171,28 +186,29 @@ class Console(cmd.Cmd):
         except Exception as e:
             print(f"Error updating employee details: {e}")
 
-    def update_job_opening(self, profile_type, attribute_name, new_value):
+    # Method to update details of a job 
+    def update_job(self, profile_type, attribute_name, new_value):
         try:
-            # Validate input types or any other conditions here
             # Retrieve the job based on the profile name
-            job_opening = self.session.query(jobmodel).filter(jobmodel.job_title == profile_type).first()
+            job = self.session.query(jobmodel).filter(jobmodel.job_title == profile_type).first()
 
-            if not job_opening:
+            if not job :
                 print(f"No job opening found with title {profile_type}")
                 return
 
             # Update the specified attribute with the new value
             if attribute_name.lower() == 'job_title':
-                job_opening.job_title = new_value
+                job.job_title = new_value
             else:
-                print(f"Invalid attribute name for job opening: {attribute_name}")
+                print(f"Invalid attribute name for job : {attribute_name}")
                 return
 
             self.session.commit()
-            print("Job Opening details updated successfully.")
+            print("Job details updated successfully.")
         except Exception as e:
-            print(f"Error updating job opening details: {e}")
+            print(f"Error updating job details: {e}")
 
+     # Command to delete a profile (employee or job)
     def do_delete(self, args):
         """
         Delete a profile.
@@ -213,6 +229,7 @@ class Console(cmd.Cmd):
         else:
             print(f"Invalid profile type: {profile_type}")
 
+    # Method to delete an employee
     def delete_employee(self, profile_name):
         try:
             # Retrieve the employee based on the profile name
@@ -233,9 +250,10 @@ class Console(cmd.Cmd):
         except Exception as e:
             print(f"Error deleting employee: {e}")
 
+     # Method to delete a job
     def delete_job(self, profile_name):
         try:
-            # Retrieve the job opening based on the profile name
+            # Retrieve the job based on the profile name
             job = self.session.query(jobmodel).filter(jobmodel.job_title == profile_name).first()
 
             if job:
@@ -247,7 +265,7 @@ class Console(cmd.Cmd):
         except Exception as e:
             print(f"Error deleting job : {e}")
 
-    # Exit console
+    # command to Exit console
     def do_exit(self, args):
         """
         Exit the HR Console.
@@ -255,16 +273,19 @@ class Console(cmd.Cmd):
         print("Exiting HR Console. Goodbye!")
         return True
 
+    # Method to save instances to a JSON file
     def save_to_json(self, class_type, filename):
         objects = self.session.query(class_type).all()
         FileStorage.save_to_json(objects, filename)
 
+    # Method to load instances from a JSON file
     def load_from_json(self, class_type, filename):
         objects = FileStorage.load_from_json(class_type, filename)
         for obj in objects:
             self.session.add(obj)
         self.session.commit()
 
+    # Method to collect and store user feedback
     def collect_feedback(self):
         print("\nEnter your feedback:")
         user_name = input("Your Name: ")
@@ -278,6 +299,7 @@ class Console(cmd.Cmd):
             feedback_file.write(f"Name: {feedback.user_name}, Email: {feedback.email}, Subject: {feedback.subject}, Message: {feedback.message}\n")
         print("\nThank you for your feedback!")
 
+    # Command to submit user feedback
     def do_submit_feedback(self, args):
         """
         Submit user feedback.
@@ -285,6 +307,7 @@ class Console(cmd.Cmd):
         """
         self.collect_feedback()
 
+    # Command to save instances to a JSON file
     def do_save_to_json(self, args):
         """
         Save instances to JSON file.
@@ -297,6 +320,7 @@ class Console(cmd.Cmd):
 
         self.save_to_json(args_list[0], args_list[1])
 
+    # Command to load instances from a JSON file
     def do_load_from_json(self, args):
         """
         Load instances from JSON file.
@@ -309,11 +333,12 @@ class Console(cmd.Cmd):
 
         self.load_from_json(args_list[0], args_list[1])
 
-
+# Main execution block
 if __name__ == "__main__":
     console_obj = Console(session, storage)
 
     while True:
+        # Display the console menu
         print("\n--- HR Console ---")
         print("0. Exit")
         print("1. Create Employee")
@@ -325,8 +350,10 @@ if __name__ == "__main__":
         print("7. Load from JSON")
         print("8. Submit Feedback")
 
+        # Prompt user for choice
         choice = input("Enter your choice (0-8): ")
 
+        # Execute the chosen command
         if choice == '1':
             # Input for creating an employee
             first_name = input("Enter First Name: ")
@@ -337,6 +364,7 @@ if __name__ == "__main__":
 
             console_obj.create_employee(first_name, last_name, employee_skills, education, employee_contact)
 
+        # Input for creating a job 
         elif choice == '2':
             # Input for creating a job
             job_title = input("Enter Job Title: ")
@@ -348,13 +376,13 @@ if __name__ == "__main__":
 
         elif choice == '3':
             # Input for showing details
-            profile_type = input("Enter profile type (Employee/JobOpening): ")
+            profile_type = input("Enter profile type (Employee/Job): ")
             profile_name = input("Enter profile name: ")
             console_obj.do_show(f"{profile_type} {profile_name}")
 
         elif choice == '4':
             # Input for updating details
-            profile_type = input("Enter profile type (Employee/JobOpening): ")
+            profile_type = input("Enter profile type (Employee/Job): ")
             profile_name = input("Enter profile name: ")
             attribute_name = input("Enter Attribute Name: ")
             new_value = input("Enter New Value: ")
@@ -362,7 +390,7 @@ if __name__ == "__main__":
 
         elif choice == '5':
             # Input for deleting an entity
-            profile_type = input("Enter profile type (Employee/JobOpening): ")
+            profile_type = input("Enter profile type (Employee/Job): ")
             profile_name = input("Enter profile name: ")
             console_obj.do_delete(f"{profile_type} {profile_name}")
 
@@ -372,13 +400,13 @@ if __name__ == "__main__":
 
         elif choice == '6':
             # Input for saving to JSON
-            class_type = input("Enter Class Type (Employee/JobOpening): ")
+            class_type = input("Enter Class Type (Employee/Job): ")
             filename = input("Enter Filename: ")
             console_obj.do_save_to_json(f"{class_type} {filename}")
 
         elif choice == '7':
             # Input for loading from JSON
-            class_type = input("Enter Class Type (Employee/JobOpening): ")
+            class_type = input("Enter Class Type (Employee/Job): ")
             filename = input("Enter Filename: ")
             console_obj.do_load_from_json(f"{class_type} {filename}")
 
