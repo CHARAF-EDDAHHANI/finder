@@ -1,7 +1,6 @@
-# -Creating an HR web application-
+# -portfolio project in ALX-SE Foundations: Creating an HR web application-
 
-portfolio project for ALX programme fundation
-
+The primary focus of Foundations in the programme is to achieve mastery of fundamental engineering concepts and become skilled in coding. Also Professional Development will be a key supplement of the primary goal. At the conclusion of Foundations, we acquired a strong foundation of technical knowledge from which we can either build upon with a Specialization or begin preparing for interviews and jobs as part of Holberton’s interview prep, Career Sprint.
 
 # Introduction of team members, and each person’s role:
 
