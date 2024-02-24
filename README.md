@@ -8,7 +8,7 @@ As the sole member of this project, I took on various roles, including project m
 Throughout this journey, I've encountered challenges, made discoveries, and honed my skills in ways that have deepened my understanding of the technology and architecture I've employed. Without further ado, let's dive into the story of the project and the exciting elements I've brought to life.
 
 
-# Story of how your project was inspired:
+# Story of how the project was inspired:
 
 The inspiration for the Human Resources web application stems from a deep-seated belief in the power of technology to bridge the gap between talented job seekers and organizations seeking their unique skills. In today's fast-paced and dynamic job market, the need for an efficient and user-friendly platform to facilitate this connection became evident.
 Having witnessed the challenges faced by both job seekers navigating through a multitude of job boards and organizations grappling with the task of finding the right talent, I was inspired to create a solution that simplifies and enhances the recruitment process for everyone involved.
