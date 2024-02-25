@@ -6,15 +6,15 @@ import shlex
 from sqlalchemy import or_, func
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from employees import employeemodel
-from jobs import jobmodel
-from feedback import feedbackmodel
-from appengine.filestorage import FileStorage
-from appengine.db_storage import DBStorage
-import basemodel
+from .models.employees import employeemodel
+from .models.jobs import jobmodel
+from .models.feedback import feedbackmodel
+from .appengine.filestorage import FileStorage
+from .appengine.db_storage import DBStorage
+from .models import basemodel
 
 # Define the database URL and create the engine
-DATABASE_URL = 'sqlite:///appengine/app.db'  # Update the path to db
+DATABASE_URL = 'sqlite:///db/console.db'  # Update the path to app.db
 engine = create_engine(DATABASE_URL, echo=True)
 
 # Create tables based on the defined models

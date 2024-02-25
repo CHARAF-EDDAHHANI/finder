@@ -3,7 +3,7 @@
 from flask import request
 from flask_restful import Resource
 from sqlalchemy.exc import SQLAlchemyError
-from console import Console
+from app.console import Console
 
 
 class CreateEmployeeResource(Resource):

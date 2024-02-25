@@ -2,7 +2,7 @@
 
 import uuid
 from sqlalchemy import Column, String, Text
-from basemodel import BaseModel
+from .basemodel import BaseModel
 
 # Inherit from the BaseModel class
 class jobmodel(BaseModel):

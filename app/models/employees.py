@@ -3,7 +3,7 @@
 import uuid
 from sqlalchemy import Column, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
-from basemodel import BaseModel
+from .basemodel import BaseModel
 import datetime
 from sqlalchemy.sql import func
 

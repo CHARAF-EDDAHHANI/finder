@@ -7,10 +7,10 @@ from flask_cors import CORS
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import SQLAlchemyError
-from console import Console
-from appengine.db_storage import DBStorage
-from basemodel import Base
-from app.api.api_routes import api_blueprint
+from .console import Console
+from .appengine.db_storage import DBStorage
+from .models.basemodel import Base
+from .api.api_routes import api_blueprint
 
 # set up logging config
 logging.basicConfig(level=logging.DEBUG)
@@ -20,7 +20,7 @@ app = Flask(__name__)
 CORS(app)
 
 # Configure Flask app
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///finder.db' #address sql db storing to finder.db
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db/app.db' #address sql db storing to app.db
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Database setup
