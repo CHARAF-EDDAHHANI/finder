@@ -47,7 +47,7 @@ $(document).ready(function () {
         console.log('Fetching employee data from the backend...');
         // Perform AJAX request to fetch employee data from the backend
         $.ajax({
-            url: 'http://34.229.68.97:5000/get_employees',
+            url: 'http://127.0.0.1:5000/get_employees',
             method: 'GET',
             success: function (response) {
                 console.log('Employee data fetched successfully:', response);
@@ -73,7 +73,7 @@ $(document).ready(function () {
         console.log('Fetching job data from the backend...');
         // Perform AJAX request to fetch job data from the backend
         $.ajax({
-            url: 'http://34.229.68.97:5000/get_jobs',
+            url: 'http://127.0.0.1:5000/get_jobs',
             method: 'GET',
             success: function (response) {
                 console.log('Job data fetched successfully:', response);
@@ -132,7 +132,7 @@ $(document).ready(function () {
 
         // Perform AJAX request to send data to the backend
         $.ajax({
-            url: 'http://34.229.68.97:5000/create_employee',
+            url: 'http://127.0.0.1:5000/create_employee',
             method: 'POST',
             data: { first_name: first_name, last_name: last_name, employee_contact: employee_contact, employee_skills: employee_skills, education: education },
             success: function (response) {
@@ -171,7 +171,7 @@ $(document).ready(function () {
 
         // Perform AJAX request to send data to the backend
         $.ajax({
-            url: 'http://34.229.68.97:5000/create_job',
+            url: 'http://127.0.0.1:5000/create_job',
             method: 'POST',
             data: { job_title : job_title, location : location, job_description: job_description, recruiter_contact : recruiter_contact },
             success: function(response) {
@@ -210,7 +210,7 @@ $(document).ready(function () {
 
         // Perform AJAX request to send data to the backend
         $.ajax({
-            url: 'http://34.229.68.97:5000/submit_feedback',
+            url: 'http://127.0.0.1:5000/submit_feedback',
             method: 'POST',
             data: { user_name : user_name, email : email, subject: subject, message : message },
             success: function(response) {

@@ -166,7 +166,7 @@ api.add_resource(SubmitFeedbackResource, '/submit_feedback')  #submitting feedba
 
 if __name__ == '__main__':
     # Initialize Flask app and run it
-    server_ip = '34.229.68.97'  
+    server_ip = '127.0.0.1'  
     log_message = f'Server is running at http://{server_ip}:5000/'
     logging.debug(log_message)
     #run flask app listen on all available public interfaces
