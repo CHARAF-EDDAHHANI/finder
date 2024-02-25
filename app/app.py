@@ -19,6 +19,10 @@ logging.basicConfig(level=logging.DEBUG)
 app = Flask(__name__)
 CORS(app)
 
+@app.route('/')
+def index():
+    return render_template('main_page.html')
+
 # Configure Flask app
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db/app.db' #address sql db storing to app.db
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
