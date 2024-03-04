@@ -21,11 +21,13 @@ class employeemodel(BaseModel):
     employee_skills = Column(String)
     education = Column(String)
     employee_contact = Column(String)
+    photo_filename = Column(String, nullable=True)
 
     #constructor method to initialize the model instance
-    def __init__(self, first_name, last_name, employee_skills, education, employee_contact):
+    def __init__(self, first_name, last_name, employee_skills, education, employee_contact, photo_filename=None):
         self.first_name = first_name
         self.last_name = last_name
         self.employee_skills = employee_skills
         self.education = education
         self.employee_contact = employee_contact
+        self.photo_filename = photo_filename

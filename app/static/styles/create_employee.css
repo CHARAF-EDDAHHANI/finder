@@ -1,0 +1,55 @@
+/* create_employee.css */
+
+body {
+    background-color: hsl(0, 10%, 83%);
+    font-family: Arial, sans-serif;
+    margin: 40px; 
+}
+
+h2 {
+    text-align: center; /* Center the h1 element */
+    color: #333; /* Set text color for the h1 element */
+}
+
+form {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px; 
+    background-color: #fff; 
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.8); 
+}
+
+label {
+    display: block; /* Make labels display as block elements for better spacing */
+    margin-bottom: 08px; /* Add bottom margin to labels for spacing */
+}
+
+input {
+    width: 100%;
+    padding: 8px;
+}
+
+/* Media Queries */
+@media screen and (max-width: 600px) {
+    /* Adjust styles for screens with a maximum width of 600px */
+    form {
+        max-width: 100%; /* form take full width on smaller screens */
+    }
+}
+
+@media screen and (max-width: 400px) {
+    /* Adjust styles for screens with a maximum width of 400px */
+    body {
+        margin: 10px; /* Reduce body margin for smaller screens */
+    }
+    form {
+        padding: 10px; /* Reduce form padding for smaller screens */
+    }
+    input {
+        margin-bottom: 10px; /* Reduce bottom margin for input fields on smaller screens */
+    }
+    button {
+        padding: 8px; /* Reduce padding for the button on smaller screens */
+    }
+}

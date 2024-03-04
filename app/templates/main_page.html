@@ -4,10 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/main_page.css') }}">
     <link rel="icon" href="static/images/Logo.JPEG" type="image/jpeg">
     <script src="{{ url_for('static', filename='scripts/jquerylib.js') }}" defer></script>
-    <script src="{{ url_for('static', filename='scripts/main_page.js') }}" defer></script>
     <title>HR Web App</title>
 </head>
 
@@ -20,16 +19,15 @@
                 <!--<img src="path/to/profile-photo.jpg" alt="My profile" class="profile-photo">-->
             </a>
             <div class="dropdown-content">
-                <a href="http://34.229.68.97:5000/My_profile">My Profile</a>
-                <button id="showModaladdemployeebtn">Add Employee</button>
-                <button id="showModalpostjobbtn">Post Job</button>
-                <button id="showModalfeedbackbtn">Feedback</button>
+                <!--<a href="http://127.0.0.1:5000/My_profile">My Profile</a>-->
+                <a href="http://127.0.0.1:5000/create_employee">Add Employee</a>
+                <!--<button id="showModalpostjobbtn">Post Job</button>-->
+                    <!--<button id="showModalfeedbackbtn">Feedback</button>-->
             </div>
         </li>
 
         <div>
-            <a href="http://34.229.68.97:5000/"><img src="{{ url_for('static', filename='images/Logo.JPEG') }}"
-                    alt="Logo" class="logo">Home</a>
+            <a href="http://127.0.0.1:5000/"><img src="{{ url_for('static', filename='images/Logo.JPEG') }}" alt="Logo" class="logo">Home</a>
         </div>
 
         <div class="search-bar">
@@ -41,7 +39,7 @@
     <main>
         <div class="button-container">
             <button id="employeesButton">Show Employees</button>
-            <button id="jobsButton">Show Job Openings</button>
+            <button id="jobsButton">Show Jobs </button>
         </div>
 
         <!-- Employees Section -->
@@ -70,53 +68,6 @@
         <p>&copy; 2024 HR Web App</p>
         <a href="#">Share Feedback . . . </a>
     </footer>
-    <!--addemployeemodaldisplay-->
-    <div id="infoModal_addemployee" class="modal_addemployee">
-        <div class="modal-content_addemployee">
-            <span class="closeemp">&times;</span>
-            <label for="first_name">First Name:</label>
-            <input type="text" id="first_name" required autocomplete="given-name">
-            <label for="last_name">Last Name:</label>
-            <input type="text" id="last_name" required autocomplete="family-name">
-            <label for="employee_skills">Employee Skills:</label>
-            <input type="text" id="employee_skills" required>
-            <label for="education">Education:</label>
-            <input type="text" id="education" required>
-            <label for="employee_contact">Employee Contact:</label>
-            <input type="text" id="employee_contact" required autocomplete="tel">
-            <button id="submitBtnemp">Submit</button>
-        </div>
-    </div>
-    <!--postjobmodaldisplay-->
-    <div id="infoModal_postjob" class="modal_postjob">
-        <div class="modal-content_postjob">
-            <span class="closejob">&times;</span>
-            <label for="job_title">Job Title:</label>
-            <input type="text" id="job_title" required>
-            <label for="location">Location:</label>
-            <input type="text" id="location" required>
-            <label for="job_description">Job Description:</label>
-            <input type="text" id="job_description" required>
-            <label for="recruiter_contact">Recruiter Contact:</label>
-            <input type="text" id="recruiter_contact" required autocomplete="tel">
-            <button id="submitBtnjob">Submit</button>
-        </div>
-    </div>
-    <!--feedbackmodaldisplay-->
-    <div id="infoModal_feedback" class="modal_feedback">
-        <div class="modal-content_feedback">
-            <span class="closefeedback">&times;</span>
-            <label for="user_name">User Name:</label>
-            <input type="text" id="user_name" required>
-            <label for="email">Email:</label>
-            <input type="email" id="email" required>
-            <label for="subject">Subject:</label>
-            <input type="text" id="subject" required>
-            <label for="message">Message:</label>
-            <input type="text" id="message" required>
-            <button id="submitBtnfeedback">Submit</button>
-        </div>
-    </div>
 
 </body>
 

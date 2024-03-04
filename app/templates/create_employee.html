@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/create_employee.css') }}">
+    <script src="{{ url_for('static', filename='scripts/jquerylib.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='scripts/create_employee.js') }}" defer></script>
+    <title>Add Employee</title>
+    
+</head>
+<body>
+
+<h2>Please insert correct information</h2>
+
+<!-- show up the employee details after creation -->
+<div id="employeeDetails"></div>
+
+<form id="employeeForm">
+    <label for="first_name">First Name:</label>
+    <input type="text" id="first_name" name="first_name" required>
+
+    <label for="last_name">Last Name:</label>
+    <input type="text" id="last_name" name="last_name" required>
+
+    <label for="employee_skills">Skills:</label>
+    <input type="text" id="employee_skills" name="employee_skills">
+
+    <label for="education">Education:</label>
+    <input type="text" id="education" name="education">
+
+    <label for="employee_contact">Contact:</label>
+    <input type="text" id="employee_contact" name="employee_contact" required>
+
+    <label for="photo">Upload profile Photo:</label>
+    <input type="file" id="photo" name="photo" accept="image/*">
+
+    <button type="button" id="submitBtnemp">Submit</button>
+</form>
+
+</body>
+</html>

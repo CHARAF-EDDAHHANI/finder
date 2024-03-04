@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/employee_detail.css') }}">
+    <title>Employee Detail</title>
+</head>
+<body>
+    <h1>Employee Details</h1>
+    <img src="{{ url_for('uploaded_file', filename=employee.photo_filename) }}" alt="Employee Photo">
+    <p>Name: {{ employee.first_name }} {{ employee.last_name }}</p>
+    <p>Skills: {{ employee.employee_skills }}</p>
+    <p>Education: {{ employee.education }}</p>
+    <p>Contact: {{ employee.employee_contact }}</p>
+    <!-- Add more details as needed -->
+</body>
+</html>
